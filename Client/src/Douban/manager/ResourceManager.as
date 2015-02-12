@@ -2,8 +2,8 @@ package Douban.manager
 {
 	import Douban.consts.CONST_RESOURCE;
 	import Douban.loader.*;
-	import 
 	import flash.display.Loader;
+	import flash.events.ErrorEvent;
 	/**
 	 * ...
 	 * @author zhmq
@@ -13,12 +13,20 @@ package Douban.manager
 		protected var FResourceLoader:ResourceLoader;
 		protected var FResourceIds:Vector.<String>;
 		protected var FResourceBacks:Vector.<Function>;
+		protected var FIsLoading:Boolean;
+		protected var FCurResource:String;
+		protected var FLoadingResourceIds:Vector.<String>
+		protected var FLoadingTypes:Vector.<String>
 		
 		public function ResourceManager() 
 		{
-			FResourceLoader = new ResourceLoader()
 			FResourceIds = new Vector.<String>;
 			FResourceBacks = new Vector.<Function>;
+			FLoadingResourceIds = new Vector.<String>;
+			FLoadingTypes = new Vector.<String>;
+			FResourceLoader = new ResourceLoader()
+			FResourceLoader.OnComplete = ResourceOnComplete;
+			FResourceLoader.OnError = ResourceOnError;
 		}
 		
 		public function RegisterLoadResource(
@@ -35,19 +43,74 @@ package Douban.manager
 		{
 			var Index:int;
 			
+			FLoadingResourceIds.push(ResourceId);
+			FLoadingTypes.push(Type);
+			
+			if (FIsLoading) return;
+			FCurResource = ResourceId;
+			LoadNext();
+			
+			FIsLoading = true;
+		}
+		
+		protected function LoadNext():void
+		{
+			var Index:int;
+			var Type:String;
+			
+			Index = FLoadingResourceIds.indexOf(FCurResource);
+			
+			Type = FLoadingTypes[Index];
 			if (Type == "")
 			{
 				Type = CONST_RESOURCE.RESOURCE_TYPE_SWF;
 			}
-			Index = FResourceIds.indexOf(ResourceId);
 			FResourceLoader.loadResource(
-				CONST_RESOURCE.RESOURCE_URL_BASE + ResourceId + Type);
-			FResourceLoader.OnComplete = ResourceOnComplete;
+				CONST_RESOURCE.RESOURCE_URL_BASE + FCurResource + Type);
+			
+			FIsLoading = true;
+			
+		}
+		
+		private function ResourceOnError(e:ErrorEvent):void 
+		{
+			ResourceNext();
 		}
 		
 		private function ResourceOnComplete(Sender:Loader):void 
 		{
-			FResourceBacks[]
+			ResourceNext(Sender);
+		}
+		
+		protected function ResourceNext(
+			Sender:Loader = null):void
+		{
+			var Index:int;
+			var FuncIndex:int;
+			
+			Index = FLoadingResourceIds.indexOf(FCurResource);
+			
+			if (Index > 0 && Index < FLoadingResourceIds.length - 1)
+			{
+				FCurResource = FLoadingResourceIds[Index + 1];
+				LoadNext();
+			}
+			FIsLoading = false;
+			
+			if (Sender != null)			
+			{
+				FuncIndex = FResourceIds.indexOf(FCurResource);
+				FResourceBacks[FuncIndex]();
+				FResourceIds.splice(FuncIndex, 1);
+				FResourceBacks.splice(FuncIndex, 1);
+				FLoadingResourceIds.splice(FuncIndex, 1);
+				FLoadingTypes.splice(FuncIndex, 1);
+			}
+			else
+			{
+				trace("ResourceId: " + FCurResource + " load fail");
+			}			
+			
 		}
 		
 	}

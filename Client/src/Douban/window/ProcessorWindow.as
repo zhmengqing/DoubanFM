@@ -12,6 +12,7 @@ package Douban.window
 		
 		public function ProcessorWindow(Parent:UIComponent) 
 		{
+			super(Parent);
 			Parent.addChild(this);
 			
 			

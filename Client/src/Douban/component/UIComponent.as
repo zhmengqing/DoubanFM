@@ -9,7 +9,7 @@ package Douban.component
 	public class UIComponent extends Sprite 
 	{
 		
-		public function UIComponent() 
+		public function UIComponent(Parent:UIComponent) 
 		{
 			super();
 			
