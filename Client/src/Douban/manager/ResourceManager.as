@@ -4,6 +4,8 @@ package Douban.manager
 	import Douban.loader.*;
 	import flash.display.Loader;
 	import flash.events.ErrorEvent;
+	import flash.system.ApplicationDomain;
+	import flash.system.LoaderContext;
 	/**
 	 * ...
 	 * @author zhmq
@@ -15,8 +17,9 @@ package Douban.manager
 		protected var FResourceBacks:Vector.<Function>;
 		protected var FIsLoading:Boolean;
 		protected var FCurResource:String;
-		protected var FLoadingResourceIds:Vector.<String>
-		protected var FLoadingTypes:Vector.<String>
+		protected var FLoadingResourceIds:Vector.<String>;
+		protected var FLoadingTypes:Vector.<String>;
+		protected var FLoaderContext:LoaderContext;
 		
 		public function ResourceManager() 
 		{
@@ -24,9 +27,13 @@ package Douban.manager
 			FResourceBacks = new Vector.<Function>;
 			FLoadingResourceIds = new Vector.<String>;
 			FLoadingTypes = new Vector.<String>;
-			FResourceLoader = new ResourceLoader()
+			FResourceLoader = new ResourceLoader();
 			FResourceLoader.OnComplete = ResourceOnComplete;
 			FResourceLoader.OnError = ResourceOnError;
+			
+			FLoaderContext = new LoaderContext(
+				false, 
+				ApplicationDomain.currentDomain);
 		}
 		
 		public function RegisterLoadResource(
@@ -66,7 +73,8 @@ package Douban.manager
 				Type = CONST_RESOURCE.RESOURCE_TYPE_SWF;
 			}
 			FResourceLoader.loadResource(
-				CONST_RESOURCE.RESOURCE_URL_BASE + FCurResource + Type);
+				CONST_RESOURCE.RESOURCE_URL_BASE + FCurResource + Type,
+				FLoaderContext);
 			
 			FIsLoading = true;
 			

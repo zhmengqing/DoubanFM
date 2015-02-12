@@ -12,7 +12,7 @@ package Douban.consts
 		
 		public static const RESOURCEID_MAIN:String = "douban_Main";
 		
-		public static const RESOURCE_VIEW_ID:String = "MC_Login_View";
+		public static const RESOURCE_VIEW_Login:String = "MC_Login_View";
 		
 		public function CONST_RESOURCE() 
 		{

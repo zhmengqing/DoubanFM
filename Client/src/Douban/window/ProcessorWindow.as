@@ -18,10 +18,6 @@ package Douban.window
 			
 		}
 		
-		protected function InitWindow():void
-		{
-			
-		}
 		
 	}
 

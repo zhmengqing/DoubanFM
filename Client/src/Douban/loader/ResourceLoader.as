@@ -29,10 +29,12 @@ package Douban.loader
 		
 		public function loadResource(
 			Url:String,
-			ResourceId:String = ""):void 
+			LoadContext:LoaderContext):void 
 		{
 			FUrlRequest.url = Url;
-			load(FUrlRequest);			
+			load(
+				FUrlRequest,
+				LoadContext);			
 		}
 		
 		private function OnLoadError(e:IOErrorEvent):void 
