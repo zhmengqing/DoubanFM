@@ -47,7 +47,7 @@ package Douban.manager
 		
 		private function ResourceOnComplete(Sender:Loader):void 
 		{
-			
+			FResourceBacks[]
 		}
 		
 	}
