@@ -1,4 +1,4 @@
-package Douban 
+package Douban.loader 
 {
 	import flash.events.Event;
 	import flash.net.URLLoader;

@@ -15,24 +15,25 @@ package Douban.module.login
 	 */
 	public class ProcessorDobanLogin extends ProcessorWindow 
 	{
-		protected var FLoader:DisplayLoader;
-		protected var FMainUI:Sprite;
+		protected var FLoginView:ProcessorLoginView;
 		
-		public function ProcessorDobanLogin(Parent:UIComponent) 
+		public function ProcessorDobanLogin(
+			Parent:UIComponent) 
 		{
 			super(Parent);
 			
 			SResourceManager.RegisterLoadResource(
 				CONST_RESOURCE.RESOURCEID_MAIN,
-				InitWindow);
+				MainLoadComplete);
 				
 			SResourceManager.Load(CONST_RESOURCE.RESOURCEID_MAIN);
+			
+			FLoginView = new ProcessorLoginView(this);
 		}
 		
-		protected function InitWindow():void 
-		{			
-			FMainUI = DomainManager.CreateDisplayByName(
-				CONST_RESOURCE.RESOURCE_VIEW_Login) as Sprite;
+		protected function MainLoadComplete():void 
+		{	
+			FLoginView.InitView();			
 		}
 	}
 
