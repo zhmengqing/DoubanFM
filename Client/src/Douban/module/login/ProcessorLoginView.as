@@ -3,6 +3,7 @@ package Douban.module.login
 	import Douban.component.UIComponent;
 	import Douban.consts.CONST_RESOURCE;
 	import Douban.manager.DomainManager;
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.text.TextField;
 	
@@ -16,6 +17,7 @@ package Douban.module.login
 		protected var FTFName:TextField;
 		protected var FTFPassword:TextField;
 		protected var FTFCaptcha:TextField;
+		protected var FMountPoint:Sprite;
 		
 		public function ProcessorLoginView(
 			Parent:UIComponent) 
@@ -33,7 +35,9 @@ package Douban.module.login
 			
 			FTFName = FMainUI["TF_Name"];
 			FTFPassword = FMainUI["TF_Password"];
-			FTFCaptcha = FMainUI["TF_Captcha"];
+			FTFCaptcha = FMainUI["TF_Captcha"];			
+			FMountPoint = FMainUI["MC_Mount"];
+			
 		}
 		
 	}
