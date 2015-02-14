@@ -2,7 +2,10 @@ package Douban.module.login
 {
 	import Douban.component.UIComponent;
 	import Douban.consts.CONST_RESOURCE;
+	import Douban.consts.CONST_SERVERID;
+	import Douban.consts.CONST_URL;
 	import Douban.manager.DomainManager;
+	import Douban.manager.SServerManager;
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.text.TextField;
@@ -38,6 +41,13 @@ package Douban.module.login
 			FTFCaptcha = FMainUI["TF_Captcha"];			
 			FMountPoint = FMainUI["MC_Mount"];
 			
+			LoadCaptcha();
+		}
+		
+		protected function LoadCaptcha():void
+		{
+			SServerManager.Load(
+				CONST_SERVERID.SERVERID_CAPTCHA);
 		}
 		
 	}
