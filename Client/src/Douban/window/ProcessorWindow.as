@@ -10,14 +10,15 @@ package Douban.window
 	public class ProcessorWindow extends UIComponent 
 	{
 		
-		public function ProcessorWindow(Parent:UIComponent) 
+		
+		public function ProcessorWindow(
+			Parent:UIComponent) 
 		{
 			super(Parent);
 			Parent.addChild(this);
 			
 			
 		}
-		
 		
 	}
 

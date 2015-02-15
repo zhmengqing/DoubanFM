@@ -29,7 +29,7 @@ package Douban.loader
 		
 		public function loadResource(
 			Url:String,
-			LoadContext:LoaderContext):void 
+			LoadContext:LoaderContext = null):void 
 		{
 			FUrlRequest.url = Url;
 			load(

@@ -19,6 +19,17 @@ package Douban.component
 			}
 		}
 		
+		public function get Visible():Boolean 
+		{
+			return this.visible;
+		}
+		
+		public function set Visible(value:Boolean):void 
+		{
+			this.visible = value;
+		}
+		
+		
 	}
 
 }

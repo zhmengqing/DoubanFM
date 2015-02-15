@@ -3,7 +3,8 @@ package
 	import Douban.component.UIComponent;
 	import Douban.component.UIRoot;
 	import Douban.DoubanLogin;
-	import Douban.module.login.ProcessorDobanLogin;
+	import Douban.module.ProcessorDoubanModule;
+	import Douban.module.ProcessorDoubanModule;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
@@ -11,6 +12,7 @@ package
 	 * ...
 	 * @author xueling
 	 */
+	[SWF(backgroundColor = 0xFFFFFF, height = 250, width = 500, frameRate = 30)] 
 	public class Main extends Sprite 
 	{
 		protected var FUIRoot:UIRoot;
@@ -25,7 +27,7 @@ package
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			FUIRoot = new UIRoot(stage);
 			// entry point
-			var Douban:ProcessorDobanLogin = new ProcessorDobanLogin(FUIRoot);
+			var Douban:ProcessorDoubanModule = new ProcessorDoubanModule(FUIRoot);
 			this.addChild(Douban);
 		}
 		

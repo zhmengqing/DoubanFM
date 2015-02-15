@@ -3,6 +3,7 @@ package Douban.manager
 	import Douban.consts.CONST_SERVERID;
 	import Douban.consts.CONST_URL;
 	import Douban.loader.HttpLoader;
+	import flash.net.URLRequestMethod;
 	/**
 	 * ...
 	 * @author zhmq
@@ -31,6 +32,7 @@ package Douban.manager
 		protected function Registers():void
 		{
 			RegisterServer(CONST_SERVERID.SERVERID_CAPTCHA, LoadCaptcha);
+			RegisterServer(CONST_SERVERID.SERVERID_LOGIN, LoadLogin);
 		}
 		
 		protected function RegisterServer(
@@ -69,6 +71,16 @@ package Douban.manager
 			FCurServerId = CONST_SERVERID.SERVERID_CAPTCHA;
 			ServerLoader.Load(
 				CONST_URL.LOGIN_CAPTCHA_URL);
+		}
+		
+		//登录
+		protected function LoadLogin(...args):void
+		{
+			FCurServerId = CONST_SERVERID.SERVERID_LOGIN;
+			ServerLoader.Load(
+				CONST_URL.LOGIN_URL,
+				URLRequestMethod.POST,
+				args[0]);
 		}
 		
 		private function OnServerComplete(Str:String):void 

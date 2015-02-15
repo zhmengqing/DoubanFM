@@ -7,7 +7,7 @@ package Douban.manager
 	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;
 	/**
-	 * ...
+	 * swf资源加载管理器
 	 * @author zhmq
 	 */
 	public class ResourceManager 
