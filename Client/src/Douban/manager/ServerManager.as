@@ -33,6 +33,7 @@ package Douban.manager
 		{
 			RegisterServer(CONST_SERVERID.SERVERID_CAPTCHA, LoadCaptcha);
 			RegisterServer(CONST_SERVERID.SERVERID_LOGIN, LoadLogin);
+			RegisterServer(CONST_SERVERID.SERVERID_SONG, LoadSong);
 		}
 		
 		protected function RegisterServer(
@@ -80,6 +81,16 @@ package Douban.manager
 			ServerLoader.Load(
 				CONST_URL.LOGIN_URL,
 				URLRequestMethod.POST,
+				args[0]);
+		}
+		
+		//下一首
+		protected function LoadSong(...args):void
+		{
+			FCurServerId = CONST_SERVERID.SERVERID_SONG;
+			ServerLoader.Load(
+				CONST_URL.LOGIN_URL,
+				"",
 				args[0]);
 		}
 		

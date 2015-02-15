@@ -2,8 +2,11 @@ package Douban.module.hall
 {
 	import Douban.component.UIComponent;
 	import Douban.consts.CONST_RESOURCE;
+	import Douban.consts.CONST_SERVERID;
 	import Douban.manager.DomainManager;
+	import Douban.manager.SServerManager;
 	import flash.display.Sprite;
+	import flash.net.URLVariables;
 	
 	/**
 	 * ...
@@ -29,6 +32,21 @@ package Douban.module.hall
 			this.addChild(FMainUI);
 			
 			FMountPoint = FMainUI["MC_MountPoint"];
+		}
+		
+		public function NextSong(
+			Sid:String = ""):void
+		{
+			var Vars:URLVariables = new URLVariables();
+			
+			Vars.type = "s";
+			Vars.sid = Sid;
+			Vars.channel = 0;
+			Vars.from = "mainsite";
+			Vars.pb = 64;
+			SServerManager.Load(
+				CONST_SERVERID.SERVERID_SONG,
+				Vars);
 		}
 	}
 
