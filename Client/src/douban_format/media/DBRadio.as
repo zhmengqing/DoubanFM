@@ -1,8 +1,8 @@
 ﻿package douban_format.media
 {
     import com.adobe.serialization.json.*;
-    import com.douban.event.*;
-    import com.douban.utils.*;
+    import douban_format.event.*;
+	import douban_format.utils.*;
     import flash.events.*;
     import flash.external.*;
     import flash.net.*;

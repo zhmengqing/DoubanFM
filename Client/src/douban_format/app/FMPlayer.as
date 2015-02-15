@@ -1,10 +1,11 @@
 ﻿package douban_format.app
 {
     import com.adobe.serialization.json.*;
-    import com.douban.display.*;
-    import com.douban.event.*;
-    import com.douban.media.*;
-    import com.douban.utils.*;
+    import douban_format.display.*;
+    import douban_format.event.*;
+    import douban_format.media.*;
+    import douban_format.utils.*;
+	import douban_format.media.DBRadio;
     import fl.transitions.easing.*;
     import flash.display.*;
     import flash.events.*;

@@ -1,6 +1,6 @@
 ﻿package douban_format.media
 {
-    import com.douban.event.*;
+    import douban_format.event.*;
     import flash.events.*;
     import flash.media.*;
     import flash.net.*;
