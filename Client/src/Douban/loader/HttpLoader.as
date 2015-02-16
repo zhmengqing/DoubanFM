@@ -3,9 +3,7 @@ package Douban.loader
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.net.navigateToURL;
-	import flash.net.URLLoader;
-	import flash.net.URLRequest;
-	import flash.net.URLRequestMethod;
+	import flash.net.*;
 	/**
 	 * ...
 	 * @author zhmq

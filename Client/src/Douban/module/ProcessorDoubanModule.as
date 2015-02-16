@@ -40,6 +40,7 @@ package Douban.module
 				CONST_RESOURCE.RESOURCEID_MAIN);
 			
 			FLoginView = new ProcessorLoginView(this);
+			FHallView = new ProcessorHallView(this);
 			
 			SServerManager.OnComplete = ServerOnComplete;
 			
@@ -89,17 +90,20 @@ package Douban.module
 						break;
 					}
 					trace("Login succ");
+					SwitchView(FHallView);
+					FHallView.InitView();
+					FHallView.NextSong();
 					break;
 				//下一首
 				case CONST_SERVERID.SERVERID_SONG:
 					trace("music");
-					FHallView.NextSong();
+					
 					break;
 			}
 		}
 		
 		protected function SwitchView(
-			View:ProcessorWindow):void
+			View:UIComponent):void
 		{
 			var Index:int;
 			var Count:int;

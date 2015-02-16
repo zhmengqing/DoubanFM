@@ -16,6 +16,7 @@ package Douban.module.hall
 	{
 		protected var FMainUI:Sprite;
 		protected var FMountPoint:Sprite;
+		protected var FIsInit:Boolean;
 		
 		public function ProcessorHallView(
 			Parent:UIComponent) 
@@ -26,6 +27,11 @@ package Douban.module.hall
 		
 		public function InitView():void
 		{
+			if (FIsInit)
+			{
+				return;
+			}
+			FIsInit = true;
 			FMainUI = DomainManager.CreateDisplayByName(
 				CONST_RESOURCE.RESOURCE_VIEW_Login) as Sprite;
 				
@@ -39,7 +45,7 @@ package Douban.module.hall
 		{
 			var Url:String = "http://douban.fm/j/mine/playlist?type=n&sid=289954&pt=2.3&channel=-3&pb=64&from=mainsite&r=a0bdc8eb6a";
 			var Vars:URLVariables = new URLVariables();
-			
+			return;
 			Vars.type = "n";
 			Vars.sid = 289954;
 			Vars.pt = 2.3;
@@ -51,6 +57,7 @@ package Douban.module.hall
 				CONST_SERVERID.SERVERID_SONG,
 				Vars);
 		}
+		
 	}
 
 }
