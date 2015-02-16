@@ -59,7 +59,7 @@ package Douban.module.login
 		private function LoginOnClick(
 			Sender:Object,
 			E:MouseEvent):void 
-		{
+		//{
 			var Vars:URLVariables = new URLVariables();
 			
 			Vars.source = "radio";
