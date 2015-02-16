@@ -37,13 +37,16 @@ package Douban.module.hall
 		public function NextSong(
 			Sid:String = ""):void
 		{
+			var Url:String = "http://douban.fm/j/mine/playlist?type=n&sid=289954&pt=2.3&channel=-3&pb=64&from=mainsite&r=a0bdc8eb6a";
 			var Vars:URLVariables = new URLVariables();
 			
-			Vars.type = "s";
-			Vars.sid = Sid;
-			Vars.channel = 0;
-			Vars.from = "mainsite";
+			Vars.type = "n";
+			Vars.sid = 289954;
+			Vars.pt = 2.3;
+			Vars.channel = -3;
 			Vars.pb = 64;
+			Vars.from = "mainsite";
+			Vars.r = "a0bdc8eb6a";
 			SServerManager.Load(
 				CONST_SERVERID.SERVERID_SONG,
 				Vars);

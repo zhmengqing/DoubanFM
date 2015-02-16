@@ -91,8 +91,9 @@ package Douban.module
 					trace("Login succ");
 					break;
 				//下一首
-				case CONST_SERVERID.SERVERID_MUSIC:
+				case CONST_SERVERID.SERVERID_SONG:
 					trace("music");
+					FHallView.NextSong();
 					break;
 			}
 		}

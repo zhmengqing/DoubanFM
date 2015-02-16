@@ -80,8 +80,10 @@ package Douban.manager
 			FCurServerId = CONST_SERVERID.SERVERID_LOGIN;
 			ServerLoader.Load(
 				CONST_URL.LOGIN_URL,
-				URLRequestMethod.POST,
+				URLRequestMethod.GET,
 				args[0]);
+				//"http://douban.fm/j/login?source=radio&alias=zhmengqing%40126.com&form_password=jgegqq&captcha_solution="+ args[0].solution +"&captcha_id="+ args[0].id +"%3Aen&remember=on&task=sync_channel_list",
+				//URLRequestMethod.POST);
 		}
 		
 		//下一首

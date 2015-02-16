@@ -1,6 +1,8 @@
 package Douban.loader 
 {
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
+	import flash.net.navigateToURL;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.net.URLRequestMethod;
@@ -21,6 +23,12 @@ package Douban.loader
 			FUrlLoader = new URLLoader();
 			
 			FUrlLoader.addEventListener(Event.COMPLETE, OnCompleteHandler); 
+			FUrlLoader.addEventListener(IOErrorEvent.IO_ERROR, OnIOError);
+		}
+		
+		private function OnIOError(e:IOErrorEvent):void 
+		{
+			trace();
 		}
 		
 		public function Load(

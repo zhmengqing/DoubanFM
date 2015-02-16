@@ -59,7 +59,7 @@ package Douban.module.login
 		private function LoginOnClick(
 			Sender:Object,
 			E:MouseEvent):void 
-		//{
+		{
 			var Vars:URLVariables = new URLVariables();
 			
 			Vars.source = "radio";
@@ -68,6 +68,7 @@ package Douban.module.login
 			Vars.captcha_solution = FTFCaptcha.text;
 			Vars.captcha_id = FCaptchaId;
 			Vars.task = "sync_channel_list";
+			
 			SServerManager.Load(
 				CONST_SERVERID.SERVERID_LOGIN,
 				Vars);
