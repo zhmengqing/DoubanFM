@@ -28,14 +28,16 @@ package Douban.loader
 		
 		private function OnIOError(e:IOErrorEvent):void 
 		{
-			trace();
+			trace(e.text);
 		}
 		
 		public function Load(
 			Url:String,
 			Method:String = "",
 			data:* = null):void
-		{
+		{			
+			//FUrlRequest = new URLRequest(Url);
+			FUrlRequest.requestHeaders = null;
 			if (Method == "")
 			{
 				FUrlRequest.method = URLRequestMethod.GET; 
