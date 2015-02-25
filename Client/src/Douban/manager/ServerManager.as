@@ -80,7 +80,7 @@ package Douban.manager
 			FCurServerId = CONST_SERVERID.SERVERID_LOGIN;
 			ServerLoader.Load(
 				CONST_URL.LOGIN_URL,
-				URLRequestMethod.POST,
+				URLRequestMethod.GET,
 				args[0]);
 				//"http://douban.fm/j/login?source=radio&alias=zhmengqing%40126.com&form_password=jgegqq&captcha_solution="+ args[0].solution +"&captcha_id="+ args[0].id +"%3Aen&remember=on&task=sync_channel_list",
 				//URLRequestMethod.POST);
@@ -89,9 +89,11 @@ package Douban.manager
 		//下一首
 		protected function LoadSong(...args):void
 		{
+			var Url:String = "http://douban.fm/j/mine/playlist?type=n&sid=289954&pt=2.3&channel=-3&pb=64&from=mainsite&r=a0bdc8eb6a";
 			FCurServerId = CONST_SERVERID.SERVERID_SONG;
 			ServerLoader.Load(
-				CONST_URL.LOGIN_URL,
+				//Url);
+				CONST_URL.MUSIC_URL,
 				"",
 				args[0]);
 		}

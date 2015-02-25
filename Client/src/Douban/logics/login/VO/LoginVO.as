@@ -1,4 +1,4 @@
-package Douban.logics.login 
+package Douban.logics.login.VO 
 {
 	/**
 	 * ...

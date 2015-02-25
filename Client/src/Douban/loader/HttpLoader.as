@@ -35,7 +35,6 @@ package Douban.loader
 			data:* = null):void
 		{			
 			//FUrlRequest = new URLRequest(Url);
-			FUrlRequest.requestHeaders = null;
 			if (Method == "")
 			{
 				FUrlRequest.method = URLRequestMethod.GET; 

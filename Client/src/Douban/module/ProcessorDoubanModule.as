@@ -97,7 +97,7 @@ package Douban.module
 				//下一首
 				case CONST_SERVERID.SERVERID_SONG:
 					trace("music");
-					
+					FHallView.LoadSong();
 					break;
 			}
 		}

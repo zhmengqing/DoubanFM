@@ -13,7 +13,7 @@ package Douban.consts
 		/**登录*/
 		public static const LOGIN_URL:String = "http://douban.fm/j/login";
 		/***/
-		public static const MUSIC_URL:String = "http://douban.fm/j/mine/playlist?";
+		public static const MUSIC_URL:String = "http://douban.fm/j/mine/playlist";
 		
 	}
 
