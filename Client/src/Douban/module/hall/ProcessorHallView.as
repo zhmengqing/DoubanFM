@@ -1,5 +1,6 @@
 package Douban.module.hall 
 {
+	import Douban.component.UIBar;
 	import Douban.component.UIButtton;
 	import Douban.component.UIComponent;
 	import Douban.consts.CONST_RESOURCE;
@@ -11,6 +12,7 @@ package Douban.module.hall
 	import Douban.manager.SServerManager;
 	import Douban.manager.SSongManager;
 	import flash.display.Sprite;
+	import flash.events.MouseEvent;
 	import flash.net.URLVariables;
 	
 	/**
@@ -22,9 +24,11 @@ package Douban.module.hall
 		protected var FMainUI:Sprite;
 		protected var FMountPoint:Sprite;
 		protected var FBtnNext:UIButtton;
+		protected var FBarSong:UIBar;
 		protected var FIsInit:Boolean;
 		protected var FUnstreamizerSong:UnstreamizerSong;
 		protected var FSongData:SongDatas;
+		protected var FCurSong:SongVO;
 		
 		public function ProcessorHallView(
 			Parent:UIComponent) 
@@ -49,9 +53,20 @@ package Douban.module.hall
 			
 			FBtnNext = new UIButtton();
 			FBtnNext.Substrate = FMainUI["Btn_Next"];
+			FBtnNext.OnClick = OnNextSong;
+			
+			FBarSong = new UIBar();
+			FBarSong.Substrate = FMainUI["MC_SongBar"];
 			
 			FUnstreamizerSong = new UnstreamizerSong();
 			FSongData = new SongDatas();
+		}
+		
+		private function OnNextSong(
+			Sender:Object,
+			E:MouseEvent):void 
+		{
+			NextSong();
 		}
 		
 		public function SetData(SongObj:Object):void
@@ -81,7 +96,13 @@ package Douban.module.hall
 		
 		public function LoadSong():void
 		{
-			SSongManager.Load(FSongData.GetSongByIndex(0).SongUrl);
+			var Radom:int;
+			
+			Radom = FSongData.Count * Math.random();
+			FCurSong = FSongData.GetSongByIndex(Radom);
+			SSongManager.Load(
+				FCurSong.SongUrl,
+				NextSong);
 		}
 		
 	}

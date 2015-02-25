@@ -20,7 +20,9 @@ package Douban.manager
 		protected var FConnection:NetConnection;
 		protected var FStream:NetStream;
 		protected var FUrl:String;
-		protected var FStreamClient:Object;
+		protected var FStreamClient:StreamClient;
+		
+		protected var FSongComplete:Function;
 		
 		public function SongManager()
 		{
@@ -28,8 +30,8 @@ package Douban.manager
 			FConnection.addEventListener(NetStatusEvent.NET_STATUS, OnNetStatus);
 			FConnection.addEventListener(SecurityErrorEvent.SECURITY_ERROR, OnSecurityError);	
 			
-			FStreamClient = new Object();
-			FStreamClient.onPlayStatus = OnPlayStatus;
+			FStreamClient = new StreamClient();
+			FStreamClient.OnPlayStatus = OnPlayStatus;
 		}
 		
 		private function OnPlayStatus(Info:Object):void 
@@ -39,6 +41,11 @@ package Douban.manager
 				FStream.close();
 				FStream.removeEventListener(NetStatusEvent.NET_STATUS, OnNetStatus);
 				FStream = null;
+				
+				if (FSongComplete != null)
+				{
+					FSongComplete();
+				}
 			}
 		}
 		
@@ -73,10 +80,14 @@ package Douban.manager
 			
 		}		
 		
-		public function Load(Url:String):void
+		public function Load(
+			Url:String,
+			SongComplete:Function = null):void
 		{
 			FUrl = Url;
+			FSongComplete = SongComplete;
 			FConnection.connect(null);
 		}	
+		
 	}
 }

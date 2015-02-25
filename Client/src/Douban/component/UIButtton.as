@@ -24,6 +24,7 @@ package Douban.component
 		protected function Initialization(): void
 		{
 			FIsInitialization = true;
+			FSubstrate.stop();
 			FSubstrate.mouseChildren = false;
 			FSubstrate.tabEnabled = false;
 			FSubstrate.buttonMode = true;
