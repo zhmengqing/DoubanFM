@@ -39,7 +39,7 @@ package Douban.logics.stream.base
 		//遇到可搜索的点（例如，视频关键帧）时从 appendBytes() 同步调用
 		public function onSeekPoint(info:Object):void
 		{
-			
+			trace("seek");
 		}
 		
 		//接收到正在播放的媒体文件中嵌入的文本数据时建立侦听器进行响应
