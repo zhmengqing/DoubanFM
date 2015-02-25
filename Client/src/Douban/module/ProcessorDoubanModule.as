@@ -6,6 +6,7 @@ package Douban.module
 	import Douban.consts.CONST_URL;
 	import Douban.loader.HttpLoader;
 	import Douban.loader.ResourceLoader;
+	import Douban.logics.song.UnstreamizerSong;
 	import Douban.manager.DomainManager;
 	import Douban.manager.SResourceManager;
 	import Douban.manager.SServerManager;
@@ -26,6 +27,7 @@ package Douban.module
 		protected var FHallView:ProcessorHallView;
 		protected var FProcessorViews:Vector.<UIComponent>;
 		protected var FImageLoader:ResourceLoader;
+		
 		
 		public function ProcessorDoubanModule(
 			Parent:UIComponent) 
@@ -50,6 +52,8 @@ package Douban.module
 			FProcessorViews = Vector.<UIComponent>([
 				FLoginView,
 				FHallView]);
+				
+			
 		}
 		
 		private function ImageOnComplete(
@@ -97,6 +101,7 @@ package Douban.module
 				//下一首
 				case CONST_SERVERID.SERVERID_SONG:
 					trace("music");
+					FHallView.SetData(Obj);
 					FHallView.LoadSong();
 					break;
 			}

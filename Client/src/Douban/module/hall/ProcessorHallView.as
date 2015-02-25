@@ -1,8 +1,12 @@
 package Douban.module.hall 
 {
+	import Douban.component.UIButtton;
 	import Douban.component.UIComponent;
 	import Douban.consts.CONST_RESOURCE;
 	import Douban.consts.CONST_SERVERID;
+	import Douban.logics.song.SongDatas;
+	import Douban.logics.song.UnstreamizerSong;
+	import Douban.logics.song.VO.SongVO;
 	import Douban.manager.DomainManager;
 	import Douban.manager.SServerManager;
 	import Douban.manager.SSongManager;
@@ -17,7 +21,10 @@ package Douban.module.hall
 	{
 		protected var FMainUI:Sprite;
 		protected var FMountPoint:Sprite;
+		protected var FBtnNext:UIButtton;
 		protected var FIsInit:Boolean;
+		protected var FUnstreamizerSong:UnstreamizerSong;
+		protected var FSongData:SongDatas;
 		
 		public function ProcessorHallView(
 			Parent:UIComponent) 
@@ -34,11 +41,24 @@ package Douban.module.hall
 			}
 			FIsInit = true;
 			FMainUI = DomainManager.CreateDisplayByName(
-				CONST_RESOURCE.RESOURCE_VIEW_Login) as Sprite;
+				CONST_RESOURCE.RESOURCE_VIEW_Hall) as Sprite;
 				
 			this.addChild(FMainUI);
 			
 			FMountPoint = FMainUI["MC_MountPoint"];
+			
+			FBtnNext = new UIButtton();
+			FBtnNext.Substrate = FMainUI["Btn_Next"];
+			
+			FUnstreamizerSong = new UnstreamizerSong();
+			FSongData = new SongDatas();
+		}
+		
+		public function SetData(SongObj:Object):void
+		{
+			FUnstreamizerSong.UnstreamizerPerform(
+				FSongData,
+				SongObj);
 		}
 		
 		public function NextSong(
@@ -59,9 +79,9 @@ package Douban.module.hall
 				Vars);
 		}
 		
-		public function LoadSong(Url:String):void
+		public function LoadSong():void
 		{
-			SSongManager.Load(Url);
+			SSongManager.Load(FSongData.GetSongByIndex(0).SongUrl);
 		}
 		
 	}

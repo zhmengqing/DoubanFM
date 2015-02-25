@@ -19,7 +19,7 @@ package Douban.logics.song.VO
 		public var PublicTime:int;
 		public var SonglistsCount:int;
 		public var Sid:int;
-		public var aid:int;
+		public var Aid:int;
 		public var Sha:String;
 		public var Kbps:int;
 		public var Albumtitle:String;
