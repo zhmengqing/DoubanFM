@@ -1,19 +1,16 @@
 package Douban.module.hall 
 {
-	import Douban.component.UIBar;
-	import Douban.component.UIButtton;
-	import Douban.component.UIComponent;
-	import Douban.consts.CONST_RESOURCE;
-	import Douban.consts.CONST_SERVERID;
-	import Douban.logics.song.SongDatas;
-	import Douban.logics.song.UnstreamizerSong;
+	import Douban.component.*;
+	import Douban.consts.*;
+	import Douban.logics.song.*;
 	import Douban.logics.song.VO.SongVO;
-	import Douban.manager.DomainManager;
-	import Douban.manager.SServerManager;
-	import Douban.manager.SSongManager;
+	import Douban.manager.*;
+	import Douban.manager.singelar.*;
+	import Douban.manager.statics.*;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
-	import flash.net.URLVariables;
+	import flash.net.*;
+	import flash.text.TextField;
 	
 	/**
 	 * ...
@@ -21,14 +18,23 @@ package Douban.module.hall
 	 */
 	public class ProcessorHallView extends UIComponent 
 	{
+		//音乐进度条
+		protected static const Bar_Song:int = 1;
+		//加载进度条
+		protected static const Bar_Load:int = 0;
+		
 		protected var FMainUI:Sprite;
 		protected var FMountPoint:Sprite;
 		protected var FBtnNext:UIButtton;
 		protected var FBarSong:UIBar;
+		protected var FTFCurTime:TextField;
+		protected var FTFTotalTime:TextField;
 		protected var FIsInit:Boolean;
 		protected var FUnstreamizerSong:UnstreamizerSong;
 		protected var FSongData:SongDatas;
 		protected var FCurSong:SongVO;
+		protected var FSongManager:SongConnection;
+		protected var FDuration:Number;
 		
 		public function ProcessorHallView(
 			Parent:UIComponent) 
@@ -55,11 +61,57 @@ package Douban.module.hall
 			FBtnNext.Substrate = FMainUI["Btn_Next"];
 			FBtnNext.OnClick = OnNextSong;
 			
-			FBarSong = new UIBar();
+			FBarSong = new UIBar(CONST_HALL.BAR_NUM);
+			FBarSong.OnOver = OnSongBarOver;
+			FBarSong.OnOut = OnSongBarOut;
+			FBarSong.OnClick = OnSongBarClick;
 			FBarSong.Substrate = FMainUI["MC_SongBar"];
+			
+			FTFCurTime = FMainUI["TF_CurTime"];
+			FTFCurTime.text = "";
+			FTFCurTime.visible = false;
+			FTFTotalTime = FMainUI["TF_TotalTime"];
+			FTFTotalTime.text = "";
+			
+			FSongManager = new SongConnection();
+			FSongManager.OnMetaData = OnMetaData;
 			
 			FUnstreamizerSong = new UnstreamizerSong();
 			FSongData = new SongDatas();
+		}
+		
+		private function OnSongBarClick(
+			Sender:Object,
+			E:MouseEvent):void 
+		{
+			
+		}
+		
+		private function OnSongBarOut(
+			Sender:Object,
+			E:MouseEvent):void 
+		{
+			FTFCurTime.visible = false;
+		}
+		
+		private function OnSongBarOver(
+			Sender:Object,
+			E:MouseEvent):void 
+		{
+			var Bar:UIBar;
+			
+			Bar = Sender as UIBar;
+			FTFCurTime.visible = true;
+			FTFCurTime.text = CommonManager.GetTimeStrBySeconds(
+				FDuration * Bar.BarScale);
+			FTFCurTime.x = mouseX - FTFCurTime.width / 2;
+		}
+		
+		private function OnMetaData(Info:Object):void 
+		{
+			FDuration = Info.duration;
+			FTFTotalTime.text = CommonManager.GetTimeStrBySeconds(
+				FDuration);
 		}
 		
 		private function OnNextSong(
@@ -100,9 +152,35 @@ package Douban.module.hall
 			
 			Radom = FSongData.Count * Math.random();
 			FCurSong = FSongData.GetSongByIndex(Radom);
-			SSongManager.Load(
+			FSongManager.Load(
 				FCurSong.SongUrl,
 				NextSong);
+		}
+		
+		override public function Update():void 
+		{
+			var Stream:NetStream;
+			
+			super.Update();
+			
+			if (FSongManager == null) return;
+			
+			Stream = FSongManager.Stream;
+			
+			if (Stream == null) return;
+			
+			if (Stream.bytesLoaded != Stream.bytesTotal)
+			{
+				FBarSong.SetBar(
+					Stream.bytesLoaded/Stream.bytesTotal)
+			}
+			if (Stream.time != FDuration)
+			{
+				FBarSong.SetBar(
+					Stream.time / FDuration,
+					Bar_Song)
+			}
+			
 		}
 		
 	}

@@ -5,8 +5,8 @@ package Douban.module.login
 	import Douban.consts.CONST_RESOURCE;
 	import Douban.consts.CONST_SERVERID;
 	import Douban.consts.CONST_URL;
-	import Douban.manager.DomainManager;
-	import Douban.manager.SServerManager;
+	import Douban.manager.statics.DomainManager;
+	import Douban.manager.singelar.SServerManager;
 	import flash.display.Bitmap;
 	import flash.display.Loader;
 	import flash.display.Sprite;

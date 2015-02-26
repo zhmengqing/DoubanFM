@@ -98,6 +98,11 @@ package Douban.logics.stream
 			}
 		}
 		
+		public function OnSendStream(info:Object):void
+		{
+			trace(info);
+		}
+		
 		public function get OnCuePoint():Function 
 		{
 			return FOnCuePoint;

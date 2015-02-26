@@ -20,6 +20,25 @@ package Douban.window
 			
 		}
 		
+		override public function Update():void 
+		{
+			var Index:int;
+			var Count:int;
+			var Child:UIComponent;
+			
+			super.Update();
+			Count = this.numChildren;
+			for (Index = 0; Index < Count; Index ++)
+			{
+				Child = this.getChildAt(Index) as UIComponent;
+				if (Child != null)
+				{
+					Child.Update();
+				}
+			}
+			
+		}
+		
 	}
 
 }

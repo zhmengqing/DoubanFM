@@ -16,6 +16,7 @@ package
 	public class Main extends Sprite 
 	{
 		protected var FUIRoot:UIRoot;
+		protected var FDouban:ProcessorDoubanModule;
 		public function Main():void 
 		{
 			if (stage) init();
@@ -25,10 +26,16 @@ package
 		private function init(e:Event = null):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
+			addEventListener(Event.ENTER_FRAME, OnEnterFrame)
 			FUIRoot = new UIRoot(stage);
-			// entry point
-			var Douban:ProcessorDoubanModule = new ProcessorDoubanModule(FUIRoot);
-			this.addChild(Douban);
+			
+			FDouban = new ProcessorDoubanModule(FUIRoot);
+			this.addChild(FDouban);
+		}
+		
+		private function OnEnterFrame(e:Event):void 
+		{
+			FDouban.Update();
 		}
 		
 	}

@@ -1,4 +1,4 @@
-package Douban.manager 
+package Douban.manager.statics 
 {
 	import flash.display.MovieClip;
 	import flash.system.ApplicationDomain;

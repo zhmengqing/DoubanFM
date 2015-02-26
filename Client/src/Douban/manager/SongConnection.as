@@ -1,5 +1,6 @@
 package Douban.manager
 {
+	import Douban.consts.CONST_NETSTREAM;
 	import Douban.logics.stream.StreamClient;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
@@ -15,7 +16,7 @@ package Douban.manager
 	 * ...
 	 * @author zhmq
 	 */
-	public class SongManager
+	public class SongConnection
 	{
 		protected var FConnection:NetConnection;
 		protected var FStream:NetStream;
@@ -23,8 +24,9 @@ package Douban.manager
 		protected var FStreamClient:StreamClient;
 		
 		protected var FSongComplete:Function;
+		protected var FOnMetaData:Function;
 		
-		public function SongManager()
+		public function SongConnection()
 		{
 			FConnection = new NetConnection();
 			FConnection.addEventListener(NetStatusEvent.NET_STATUS, OnNetStatus);
@@ -32,11 +34,20 @@ package Douban.manager
 			
 			FStreamClient = new StreamClient();
 			FStreamClient.OnPlayStatus = OnPlayStatus;
+			FStreamClient.OnMetaData = SongOnMetaData;
+		}
+		
+		private function SongOnMetaData(Info:Object):void 
+		{
+			if (FOnMetaData != null)
+			{
+				FOnMetaData(Info);
+			}
 		}
 		
 		private function OnPlayStatus(Info:Object):void 
 		{
-			if (Info.code == "NetStream.Play.Complete")
+			if (Info.code == CONST_NETSTREAM.NetStream_Play_Complete)
 			{
 				FStream.close();
 				FStream.removeEventListener(NetStatusEvent.NET_STATUS, OnNetStatus);
@@ -58,10 +69,10 @@ package Douban.manager
 		{
 			switch (e.info.code) 
 			{	
-				case "NetConnection.Connect.Success":
+				case CONST_NETSTREAM.NetConnection_Connect_Success:
                     ConnectStream();
                     break;
-                case "NetStream.Play.StreamNotFound":
+                case CONST_NETSTREAM.NetStream_Play_StreamNotFound:
                     trace("Stream not found: " + FUrl);
                     break;
             }
@@ -88,6 +99,21 @@ package Douban.manager
 			FSongComplete = SongComplete;
 			FConnection.connect(null);
 		}	
+		
+		public function get Stream():NetStream
+		{
+			return FStream;
+		}
+		
+		public function get OnMetaData():Function 
+		{
+			return FOnMetaData;
+		}
+		
+		public function set OnMetaData(value:Function):void 
+		{
+			FOnMetaData = value;
+		}
 		
 	}
 }

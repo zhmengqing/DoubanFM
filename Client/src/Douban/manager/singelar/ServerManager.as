@@ -1,4 +1,4 @@
-package Douban.manager 
+package Douban.manager.singelar 
 {
 	import Douban.consts.CONST_SERVERID;
 	import Douban.consts.CONST_URL;

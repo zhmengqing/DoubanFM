@@ -1,4 +1,4 @@
-package Douban.manager 
+package Douban.manager.singelar 
 {
 	/**
 	 * ...

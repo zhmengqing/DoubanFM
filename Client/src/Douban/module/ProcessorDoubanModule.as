@@ -7,9 +7,9 @@ package Douban.module
 	import Douban.loader.HttpLoader;
 	import Douban.loader.ResourceLoader;
 	import Douban.logics.song.UnstreamizerSong;
-	import Douban.manager.DomainManager;
-	import Douban.manager.SResourceManager;
-	import Douban.manager.SServerManager;
+	import Douban.manager.statics.DomainManager;
+	import Douban.manager.singelar.SResourceManager;
+	import Douban.manager.singelar.SServerManager;
 	import Douban.module.hall.ProcessorHallView;
 	import Douban.module.login.ProcessorLoginView;
 	import Douban.window.ProcessorWindow;
