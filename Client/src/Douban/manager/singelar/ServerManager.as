@@ -34,6 +34,7 @@ package Douban.manager.singelar
 			RegisterServer(CONST_SERVERID.SERVERID_CAPTCHA, LoadCaptcha);
 			RegisterServer(CONST_SERVERID.SERVERID_LOGIN, LoadLogin);
 			RegisterServer(CONST_SERVERID.SERVERID_SONG, LoadSong);
+			RegisterServer(CONST_SERVERID.SERVERID_SHARE, LoadShare);
 		}
 		
 		protected function RegisterServer(
@@ -96,6 +97,18 @@ package Douban.manager.singelar
 				CONST_URL.MUSIC_URL,
 				"",
 				args[0]);
+		}
+		
+		protected function LoadShare(...args):void
+		{
+			var Url:String = "records=[{\"fm_song_id\":\"1395046\",\"datetime\":1424942737371,\"source\":\"fm\",\"terminal\":\"sina\",\"platform\":\"web\",\"channel_id\":\"0\"}]&ck=null";
+			FCurServerId = CONST_SERVERID.SERVERID_SHARE;
+			ServerLoader.Load(
+				CONST_URL.REC_ACTION_URL,
+				URLRequestMethod.POST,
+				args[0]);
+				//CONST_URL.REC_ACTION_URL + "?" + Url,
+				//URLRequestMethod.GET);
 		}
 		
 		private function OnServerComplete(Str:String):void 

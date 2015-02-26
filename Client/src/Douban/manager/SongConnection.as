@@ -60,11 +60,6 @@ package Douban.manager
 			}
 		}
 		
-		private function OnStreamStatus(e:NetStatusEvent):void 
-		{
-			
-		}
-		
 		private function OnNetStatus(e:NetStatusEvent):void 
 		{
 			switch (e.info.code) 
@@ -99,6 +94,12 @@ package Douban.manager
 			FSongComplete = SongComplete;
 			FConnection.connect(null);
 		}	
+		
+		public function Seek(Offset:Number):void
+		{
+			FStream.seek(Offset);
+			FStream.resume();
+		}
 		
 		public function get Stream():NetStream
 		{

@@ -61,6 +61,8 @@ package Douban.module
 		{
 			FLoginView.AddCaptcha(
 				Image);
+			FHallView.AddPicture(
+				Image);
 		}
 		
 		protected function MainLoadComplete():void 
@@ -100,9 +102,11 @@ package Douban.module
 					break;
 				//下一首
 				case CONST_SERVERID.SERVERID_SONG:
-					trace("music");
+					trace("music");					
 					FHallView.SetData(Obj);
 					FHallView.LoadSong();
+					FImageLoader.loadResource(
+						FHallView.CurSong.PictureUrl);
 					break;
 			}
 		}

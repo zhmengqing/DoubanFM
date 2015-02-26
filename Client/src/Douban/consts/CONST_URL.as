@@ -15,6 +15,13 @@ package Douban.consts
 		/***/
 		public static const MUSIC_URL:String = "http://douban.fm/j/mine/playlist";
 		
+		/**分享发送记录*/
+		public static const REC_ACTION_URL:String = "http://douban.fm/j/fm_rec_action_log";
+		
+		/**微博分享*/
+		public static const SHARE_URL:String = "http://service.weibo.com/share/share.php";
+		
+		
 	}
 
 }

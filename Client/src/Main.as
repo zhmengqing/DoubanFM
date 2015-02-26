@@ -12,7 +12,7 @@ package
 	 * ...
 	 * @author xueling
 	 */
-	[SWF(backgroundColor = 0xFFFFFF, height = 250, width = 500, frameRate = 30)] 
+	[SWF(backgroundColor = 0xFFFFFF, height = 250, width = 520, frameRate = 30)] 
 	public class Main extends Sprite 
 	{
 		protected var FUIRoot:UIRoot;

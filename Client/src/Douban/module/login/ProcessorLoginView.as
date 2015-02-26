@@ -90,7 +90,10 @@ package Douban.module.login
 		public function AddCaptcha(
 			Image:Loader):void
 		{
-			FMountPoint.addChild(Image);
+			if(Visible)
+			{
+				FMountPoint.addChild(Image);
+			}
 		}
 		
 		public function ShowErrorInfo(
