@@ -18,12 +18,13 @@ package Douban.logics.song.VO
 		public var Subtype:String;
 		public var PublicTime:int;
 		public var SonglistsCount:int;
-		public var Sid:int;
+		public var Sid:String;
 		public var Aid:int;
 		public var Sha:String;
 		public var Kbps:int;
 		public var Albumtitle:String;
 		public var Like:int;
+		public var AdType:int;
 		
 		public function SongVO() 
 		{

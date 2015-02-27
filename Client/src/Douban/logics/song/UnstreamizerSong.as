@@ -22,6 +22,12 @@ package Douban.logics.song
 		{
 			FSongData = Destination as SongDatas;
 			FSongData.RType = int(Correlator.r);
+			if (Correlator.is_show_quick_start == undefined) 
+			{
+				trace("空列表");
+				FSongData.CurSongIndex++;
+				return;
+			}			
 			FSongData.IsShowQuickStart = Correlator.is_show_quick_start == 1;
 			FSongData.SetData(Correlator.song);
 		}

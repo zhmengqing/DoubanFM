@@ -46,6 +46,8 @@ package Douban.module.hall
 		protected var FSongManager:SongConnection;
 		protected var FDuration:Number;
 		
+		protected var FSongPlayer:SongPlayer;
+		
 		public function ProcessorHallView(
 			Parent:UIComponent) 
 		{
@@ -99,44 +101,15 @@ package Douban.module.hall
 			FSongManager.OnMetaData = OnMetaData;
 			
 			FUnstreamizerSong = new UnstreamizerSong();
-			FSongData = new SongDatas();
+			
+			FSongPlayer = new SongPlayer();
 		}
 		
 		private function OnShare(
 			Sender:Object,
 			E:MouseEvent):void 
 		{
-			var Vars:URLVariables;
-			var Record:Object;
-			var Arr:Array;
-			var CurDate:Date;
 			
-			Vars = new URLVariables();
-			Record = new Object();			
-			CurDate = new Date();
-			Record.fm_song_id = FCurSong.Sid;
-			Record.datetime = CurDate.getTime();
-			Record.source = "fm";
-			Record.terminal = "sina";
-			Record.platform = "web";
-			Record.channel_id = "0";
-			
-			Arr = [Record];
-			
-			Vars.ck = null;
-			Vars.records = "[{fm_song_id:\"1395046\",datetime:1424942737371,source:\"fm\",terminal:\"sina\",platform:\"web\",channel_id:0}]";
-			/*"[{" +
-				"\"fm_song_id\":" + "\"" + FCurSong.Sid + "\"" + "," +
-				"\"datetime\":" + CurDate.getTime() + "," +
-				"\"source\":\"fm\"" + "," +
-				"\"terminal\":\"sina\"" + "," +
-				"\"platform\":\"web\"" + "," +
-				"\"channel_id\":" + "\"" + 0 + "\"" +
-				"}]";*/
-			
-			SServerManager.Load(
-				CONST_SERVERID.SERVERID_SHARE,
-				Vars);
 		}
 		
 		private function OnSongBarClick(
@@ -186,34 +159,21 @@ package Douban.module.hall
 			SongObj:Object):void
 		{
 			FUnstreamizerSong.UnstreamizerPerform(
-				FSongData,
+				FSongPlayer.SongList,
 				SongObj);
+				
+			FSongData = FSongPlayer.SongList;
 		}
 		
-		public function NextSong(
-			Sid:String = ""):void
+		public function NextSong():void
 		{
-			var Url:String = "http://douban.fm/j/mine/playlist?type=n&sid=289954&pt=2.3&channel=-3&pb=64&from=mainsite&r=a0bdc8eb6a";
-			var Vars:URLVariables = new URLVariables();
-			//return;
-			Vars.type = "n";
-			Vars.sid = "289954";
-			Vars.pt = "2.3";
-			Vars.channel = "-3";
-			Vars.pb = "64";
-			Vars.from = "mainsite";
-			Vars.r = "a0bdc8eb6a";
-			SServerManager.Load(
-				CONST_SERVERID.SERVERID_SONG,
-				Vars);
+			FSongPlayer.PlayNext();			
 		}
 		
+		//播放音乐
 		public function LoadSong():void
 		{
-			var Radom:int;
-			
-			Radom = FSongData.Count * Math.random();
-			FCurSong = FSongData.GetSongByIndex(Radom);
+			FCurSong = FSongPlayer.SongList.GetCurSong();
 			FSongManager.Load(
 				FCurSong.SongUrl,
 				NextSong);

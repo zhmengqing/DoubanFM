@@ -9,6 +9,7 @@ package Douban.logics.song
 	{
 		protected var FRType:int;
 		protected var FIsShowQuickStart:Boolean;
+		protected var FCurSongIndex:int;
 		
 		protected var FSongVec:Vector.<SongVO>;
 		
@@ -20,6 +21,11 @@ package Douban.logics.song
 		public function GetSongByIndex(Index:int):SongVO
 		{
 			return FSongVec[Index];
+		}
+		
+		public function GetCurSong():SongVO
+		{
+			return GetSongByIndex(FCurSongIndex);
 		}
 		
 		public function Add(Song:SongVO):void
@@ -49,6 +55,7 @@ package Douban.logics.song
 			var Song:SongVO;
 			var SongObj:Object;
 			
+			FCurSongIndex = 0;
 			Arr = Obj as Array;
 			for (Index = 0; Index < Arr.length; Index++)
 			{
@@ -72,6 +79,7 @@ package Douban.logics.song
 				Song.Kbps = SongObj.kbps;
 				Song.Albumtitle = SongObj.albumtitle;
 				Song.Like = SongObj.like;
+				Song.AdType = SongObj.adtype;
 				Add(Song);
 			}
 		}
@@ -106,6 +114,16 @@ package Douban.logics.song
 		public function get Count():int 
 		{
 			return FSongVec.length;
+		}
+		
+		public function get CurSongIndex():int 
+		{
+			return FCurSongIndex;
+		}
+		
+		public function set CurSongIndex(value:int):void 
+		{
+			FCurSongIndex = value;
 		}
 		
 	}
