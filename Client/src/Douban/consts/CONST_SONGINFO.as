@@ -27,6 +27,10 @@ package Douban.consts
 		public static const FROM_MAINSITE:String = "mainsite";
 		
 		public static const MD5_KEY:String = "fr0d0";
+		public static const APP_KEY:String = "3163308509";
+		
+		public static const SHARE_CID_OFFSET:int = 2000000;//分享的时候用到
+		public static const ID_DOUBAN_SINA:String = "1665581307";
 		
 	}
 

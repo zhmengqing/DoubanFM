@@ -18,7 +18,7 @@ package Douban.manager
 		protected var FSongType:String;
 		protected var FSid:String;
 		protected var FPt:String;
-		protected var FChannel:int;
+		protected var FChannel:String;
 		protected var FPb:int;
 		protected var FFrom:String;
 		protected var FKbps:int;
@@ -35,8 +35,12 @@ package Douban.manager
 			var ReqUrl:String;
 			var Md5Req:String;
 			
-			ReqUrl = CONST_URL.MUSIC_URL + "?";
-			ReqUrl += "type=" + FSongType;
+			FCurSongVO = FSongList.GetCurSong();
+			FSid = FCurSongVO != null ? FCurSongVO.Sid:"";
+			FChannel = FSongList.CurChannel;
+			
+			ReqUrl = CONST_URL.MUSIC_URL;
+			ReqUrl += "?type=" + FSongType;
 			ReqUrl += "&sid=" + FSid;
 			ReqUrl += "&pt=" + FPt;
 			ReqUrl += "&channel=" + FChannel;
@@ -54,7 +58,7 @@ package Douban.manager
 			
 			Md5Req = TMD5.Hash(ReqUrl + CONST_SONGINFO.MD5_KEY).substr(-10)
 			ReqUrl += "&r=" + Md5Req;
-			
+			trace(ReqUrl);
 			SServerManager.Load(
 				CONST_SERVERID.SERVERID_SONG,
 				ReqUrl);
@@ -67,7 +71,7 @@ package Douban.manager
 			FSid = "";
 			FPt = "0.0";
 			FFrom = CONST_SONGINFO.FROM_MAINSITE;
-			FChannel = 0;
+			FChannel = CONST_SONGINFO.PERSONAL_CHANNEL;
 		}
 		
 		public function get SongType():String 
@@ -83,6 +87,26 @@ package Douban.manager
 		public function get SongList():SongDatas 
 		{
 			return FSongList;
+		}
+		
+		public function get Pt():String 
+		{
+			return FPt;
+		}
+		
+		public function set Pt(value:String):void 
+		{
+			FPt = value;
+		}
+		
+		public function get Pb():int 
+		{
+			return FPb;
+		}
+		
+		public function set Pb(value:int):void 
+		{
+			FPb = value;
 		}
 		
 	}

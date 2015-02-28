@@ -33,8 +33,8 @@ package Douban.module.hall
 		protected var FBtnNext:UIButtton;
 		protected var FBtnShare:UIButtton;
 		protected var FBarSong:UIBar;
-		protected var FTFCurTime:TextField;
-		protected var FTFLeftTime:TextField;
+		protected var FTFCurTime:TextField;//时间tip
+		protected var FTFLeftTime:TextField;//剩余时间
 		protected var FTFArtist:TextField;
 		protected var FTFAlbumtitle:TextField;
 		protected var FTFTitle:TextField;
@@ -44,9 +44,10 @@ package Douban.module.hall
 		protected var FSongData:SongDatas;
 		protected var FCurSong:SongVO;
 		protected var FSongManager:SongConnection;
-		protected var FDuration:Number;
+		protected var FDuration:Number;//音乐总时间：秒
 		
 		protected var FSongPlayer:SongPlayer;
+		protected var FBarCurTime:Number;//当前音乐走到的时间：秒
 		
 		public function ProcessorHallView(
 			Parent:UIComponent) 
@@ -109,6 +110,8 @@ package Douban.module.hall
 			Sender:Object,
 			E:MouseEvent):void 
 		{
+			FUnstreamizerSong.UnstreamizerSongShare(
+				FSongPlayer.SongList);
 			
 		}
 		
@@ -148,10 +151,19 @@ package Douban.module.hall
 			FDuration = Info.duration;			
 		}
 		
+		//下一首
 		private function OnNextSong(
 			Sender:Object,
 			E:MouseEvent):void 
+		{			
+			FSongPlayer.SongType = CONST_SONGINFO.TYPE_SKIP;
+			NextSong();
+		}
+		
+		//自然播放
+		private function OnSongComplete():void
 		{
+			FSongPlayer.SongType = CONST_SONGINFO.TYPE_PLAYED;
 			NextSong();
 		}
 		
@@ -167,6 +179,7 @@ package Douban.module.hall
 		
 		public function NextSong():void
 		{
+			FSongPlayer.Pt = FBarCurTime.toFixed(1);
 			FSongPlayer.PlayNext();			
 		}
 		
@@ -176,7 +189,7 @@ package Douban.module.hall
 			FCurSong = FSongPlayer.SongList.GetCurSong();
 			FSongManager.Load(
 				FCurSong.SongUrl,
-				NextSong);
+				OnSongComplete);
 				
 			FTFArtist.text = FCurSong.Artist;
 			FTFAlbumtitle.text = "<" + FCurSong.Albumtitle + "> " + FCurSong.PublicTime;
@@ -207,8 +220,9 @@ package Douban.module.hall
 				FBarSong.SetBar(
 					BarScare,
 					Bar_Song);
+				FBarCurTime = FDuration * BarScare;
 				FTFLeftTime.text = "-" + CommonManager.GetTimeStrBySeconds(
-					FDuration * (1 - BarScare));
+					FDuration - FBarCurTime);
 			}
 			
 		}

@@ -1,5 +1,6 @@
 package Douban.logics.song 
 {
+	import Douban.consts.*;
 	import Douban.logics.song.VO.SongVO;
 	/**
 	 * ...
@@ -7,19 +8,26 @@ package Douban.logics.song
 	 */
 	public class SongDatas 
 	{
-		protected var FRType:int;
-		protected var FIsShowQuickStart:Boolean;
+		protected var FRType:int;//不知道是什么
+		protected var FIsShowQuickStart:Boolean;//不知道是什么
 		protected var FCurSongIndex:int;
+		protected var FCurChannel:String;
 		
+		//音乐列表
 		protected var FSongVec:Vector.<SongVO>;
 		
 		public function SongDatas() 
 		{
 			FSongVec = new Vector.<SongVO>;
+			FCurChannel = CONST_SONGINFO.PERSONAL_CHANNEL;
 		}
 		
 		public function GetSongByIndex(Index:int):SongVO
 		{
+			if (FSongVec.length <= Index)
+			{
+				return null;
+			}
 			return FSongVec[Index];
 		}
 		
@@ -57,6 +65,7 @@ package Douban.logics.song
 			
 			FCurSongIndex = 0;
 			Arr = Obj as Array;
+			FSongVec.length = 0;
 			for (Index = 0; Index < Arr.length; Index++)
 			{
 				SongObj = Arr[Index];
@@ -124,6 +133,16 @@ package Douban.logics.song
 		public function set CurSongIndex(value:int):void 
 		{
 			FCurSongIndex = value;
+		}
+		
+		public function get CurChannel():String 
+		{
+			return FCurChannel;
+		}
+		
+		public function set CurChannel(value:String):void 
+		{
+			FCurChannel = value;
 		}
 		
 	}
