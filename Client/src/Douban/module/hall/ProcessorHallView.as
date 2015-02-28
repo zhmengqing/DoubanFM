@@ -7,6 +7,8 @@ package Douban.module.hall
 	import Douban.manager.*;
 	import Douban.manager.singelar.*;
 	import Douban.manager.statics.*;
+	import Douban.module.hall.component.SongHeart;
+	import Douban.module.hall.musicPlayer.*;
 	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
@@ -38,6 +40,10 @@ package Douban.module.hall
 		protected var FTFArtist:TextField;
 		protected var FTFAlbumtitle:TextField;
 		protected var FTFTitle:TextField;
+		protected var FSongHeart:SongHeart;
+		protected var FBtnBin:UIButtton;
+		protected var FBtnPause:UIButtton;
+		protected var FBtnMask:UIButtton;
 		
 		protected var FIsInit:Boolean;
 		protected var FUnstreamizerSong:UnstreamizerSong;
@@ -49,11 +55,14 @@ package Douban.module.hall
 		protected var FSongPlayer:SongPlayer;
 		protected var FBarCurTime:Number;//当前音乐走到的时间：秒
 		
+		protected var FNeedSkip:Boolean;//直接跳下一首
+		
 		public function ProcessorHallView(
 			Parent:UIComponent) 
 		{
 			super(Parent);
 			Visible = false;
+			FNeedSkip = true;
 		}
 		
 		public function InitView():void
@@ -98,12 +107,76 @@ package Douban.module.hall
 			FBtnShare.Substrate = FMainUI["Btn_Share"];
 			FBtnShare.OnClick = OnShare;
 			
+			FBtnBin = new UIButtton();
+			FBtnBin.Substrate = FMainUI["Btn_Bin"];
+			FBtnBin.OnClick = OnDustbin;
+			
+			FBtnPause = new UIButtton();
+			FBtnPause.Substrate = FMainUI["Btn_Pause"];
+			FBtnPause.OnClick = OnPause;
+			
+			FSongHeart = new SongHeart(FMainUI["SP_Heart"]);
+			FSongHeart.OnBlackClick = OnBlackClick;
+			FSongHeart.OnRedClick = OnRedClick;
+			
+			FBtnMask = new UIButtton();
+			FBtnMask.Substrate = FMainUI["MC_Mask"];
+			FBtnMask.OnClick = OnResume;
+			FBtnMask.Visible = false;
+			
 			FSongManager = new SongConnection();
 			FSongManager.OnMetaData = OnMetaData;
 			
 			FUnstreamizerSong = new UnstreamizerSong();
 			
 			FSongPlayer = new SongPlayer();
+		}
+		
+		private function OnResume(
+			Sender:Object,
+			E:MouseEvent):void 
+		{
+			FSongManager.Resume();
+			FBtnPause.Visible = true;
+			FBtnMask.Visible = false;
+		}
+		
+		private function OnPause(
+			Sender:Object,
+			E:MouseEvent):void 
+		{
+			FSongManager.Pause();
+			FBtnPause.Visible = false;
+			FBtnMask.Visible = true;
+		}
+		
+		private function OnRedClick(
+			Sender:Object,
+			E:MouseEvent):void 
+		{
+			FSongPlayer.SongType = CONST_SONGINFO.TYPE_UNLIKE;
+			FSongHeart.ShowHeart(SongHeart.Type_Black);
+			FNeedSkip = false;
+			NextSong();
+		}
+		
+		private function OnBlackClick(
+			Sender:Object,
+			E:MouseEvent):void 
+		{
+			FSongPlayer.SongType = CONST_SONGINFO.TYPE_LIKE;
+			FSongHeart.ShowHeart(SongHeart.Type_Red);
+			FNeedSkip = false;
+			NextSong();
+		}
+		
+		private function OnDustbin(
+			Sender:Object,
+			E:MouseEvent):void 
+		{
+			FSongPlayer.SongType = CONST_SONGINFO.TYPE_BAN;
+			FNeedSkip = true;
+			NextSong();
 		}
 		
 		private function OnShare(
@@ -157,6 +230,7 @@ package Douban.module.hall
 			E:MouseEvent):void 
 		{			
 			FSongPlayer.SongType = CONST_SONGINFO.TYPE_SKIP;
+			FNeedSkip = true;
 			NextSong();
 		}
 		
@@ -164,7 +238,20 @@ package Douban.module.hall
 		private function OnSongComplete():void
 		{
 			FSongPlayer.SongType = CONST_SONGINFO.TYPE_PLAYED;
+			if (!FNeedSkip)//喜欢与否的情况，列表被更改
+			{
+				FSongData.CurSongIndex = 0;				
+				FNeedSkip = true;
+			}
 			NextSong();
+		}
+		
+		//列表播完
+		protected function SongPlayOut():void
+		{
+			FSongPlayer.SongType = CONST_SONGINFO.TYPE_PLAYOUT;
+			FSongPlayer.PlayNext();
+			FSongHeart.ShowHeart(SongHeart.Type_Black);
 		}
 		
 		public function SetData(
@@ -179,14 +266,33 @@ package Douban.module.hall
 		
 		public function NextSong():void
 		{
-			FSongPlayer.Pt = FBarCurTime.toFixed(1);
-			FSongPlayer.PlayNext();			
+			FSongPlayer.PlayNext(FBarCurTime.toFixed(1));		
+			FSongHeart.ShowHeart(SongHeart.Type_Black);
 		}
 		
 		//播放音乐
 		public function LoadSong():void
 		{
+			var CurIndex:int;
+			
 			FCurSong = FSongPlayer.SongList.GetCurSong();
+			if (FCurSong == null)
+			{
+				SongPlayOut();
+				return;
+			}
+			//过滤广告
+			if (FCurSong.AdType > 0)
+			{
+				CurIndex = FSongPlayer.SongList.CurSongIndex;
+				if (CurIndex >= FSongPlayer.SongList.Count)
+				{
+					//处理广告在音乐列表最后一个的情况
+					SongPlayOut();
+					return;
+				}
+				FCurSong = FSongPlayer.SongList.GetSongByIndex(CurIndex);
+			}
 			FSongManager.Load(
 				FCurSong.SongUrl,
 				OnSongComplete);
@@ -194,6 +300,7 @@ package Douban.module.hall
 			FTFArtist.text = FCurSong.Artist;
 			FTFAlbumtitle.text = "<" + FCurSong.Albumtitle + "> " + FCurSong.PublicTime;
 			FTFTitle.text = FCurSong.Title;
+			FSongHeart.ShowHeart(FCurSong.Like);
 		}
 		
 		override public function Update():void 
@@ -244,6 +351,11 @@ package Douban.module.hall
 		public function get CurSong():SongVO
 		{
 			return FCurSong;
+		}
+		
+		public function get NeedSkip():Boolean
+		{
+			return FNeedSkip;
 		}
 		
 	}

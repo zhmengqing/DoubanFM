@@ -1,4 +1,4 @@
-package Douban.manager
+package Douban.module.hall.musicPlayer
 {
 	import Douban.consts.CONST_NETSTREAM;
 	import Douban.logics.stream.StreamClient;
@@ -69,6 +69,10 @@ package Douban.manager
                     break;
                 case CONST_NETSTREAM.NetStream_Play_StreamNotFound:
                     trace("Stream not found: " + FUrl);
+					if (FSongComplete != null)
+					{
+						FSongComplete();
+					}
                     break;
             }
 		}
@@ -98,7 +102,17 @@ package Douban.manager
 		public function Seek(Offset:Number):void
 		{
 			FStream.seek(Offset);
+			Resume();
+		}
+		
+		public function Resume():void
+		{
 			FStream.resume();
+		}
+		
+		public function Pause():void
+		{
+			FStream.pause();
 		}
 		
 		public function get Stream():NetStream

@@ -1,4 +1,4 @@
-package Douban.manager 
+package Douban.module.hall.musicPlayer 
 {
 	import Douban.consts.*;
 	import Douban.logics.song.SongDatas;
@@ -30,11 +30,12 @@ package Douban.manager
 			ResetData();
 		}
 		
-		public function PlayNext():void
+		public function PlayNext(Pt:String = "0.0"):void
 		{
 			var ReqUrl:String;
 			var Md5Req:String;
 			
+			FPt = Pt;
 			FCurSongVO = FSongList.GetCurSong();
 			FSid = FCurSongVO != null ? FCurSongVO.Sid:"";
 			FChannel = FSongList.CurChannel;
@@ -87,16 +88,6 @@ package Douban.manager
 		public function get SongList():SongDatas 
 		{
 			return FSongList;
-		}
-		
-		public function get Pt():String 
-		{
-			return FPt;
-		}
-		
-		public function set Pt(value:String):void 
-		{
-			FPt = value;
 		}
 		
 		public function get Pb():int 

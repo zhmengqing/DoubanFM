@@ -30,7 +30,7 @@ package Douban.consts
 		public static const APP_KEY:String = "3163308509";
 		
 		public static const SHARE_CID_OFFSET:int = 2000000;//分享的时候用到
-		public static const ID_DOUBAN_SINA:String = "1665581307";
+		public static const ID_DOUBAN_SINA:String = "1665581307";//这个id的来历还要考虑下
 		
 	}
 

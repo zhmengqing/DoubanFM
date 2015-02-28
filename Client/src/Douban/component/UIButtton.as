@@ -77,6 +77,16 @@ package Douban.component
 			FOnClick = value;
 		}
 		
+		public function get Visible():Boolean 
+		{
+			return FSubstrate.visible;
+		}
+		
+		public function set Visible(value:Boolean):void 
+		{
+			FSubstrate.visible = value;
+		}
+		
 	}
 
 }

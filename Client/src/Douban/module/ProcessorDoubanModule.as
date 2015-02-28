@@ -104,9 +104,12 @@ package Douban.module
 				case CONST_SERVERID.SERVERID_SONG:
 					trace("music");					
 					FHallView.SetData(Obj);
-					FHallView.LoadSong();
-					FImageLoader.loadResource(
-						FHallView.CurSong.PictureUrl);
+					if(FHallView.NeedSkip)
+					{
+						FHallView.LoadSong();
+						FImageLoader.loadResource(
+							FHallView.CurSong.PictureUrl);
+					}					
 					break;
 			}
 		}
