@@ -1,6 +1,7 @@
 package Douban.logics.song 
 {
 	import Douban.consts.*;
+	import Douban.logics.login.VO.LoginVO;
 	import Douban.logics.song.VO.SongVO;
 	import Douban.logics.Unstreamizer;
 	import flash.net.navigateToURL;
@@ -37,6 +38,25 @@ package Douban.logics.song
 			SongData.SetData(Correlator.song);
 		}
 		
+		//构造登录信息
+		public function UnstreamizerLoginInfo(
+			Destination:Object,
+			Correlator:Object):void
+		{
+			var LoginData:LoginVO;
+			
+			LoginData = Destination as LoginVO;
+			LoginData.Ck = Correlator.ck;
+			LoginData.Collects = Correlator.play_record.fav_chls_count;
+			LoginData.Liked = Correlator.play_record.liked;
+			LoginData.Banned = Correlator.play_record.banned;
+			LoginData.Played = Correlator.play_record.played;
+			LoginData.Uid = Correlator.uid;
+			LoginData.Id = Correlator.id;
+			LoginData.Name = Correlator.name;
+		}
+		
+		//构造分享链接
 		public function UnstreamizerSongShare(
 			Destination:Object):void
 		{

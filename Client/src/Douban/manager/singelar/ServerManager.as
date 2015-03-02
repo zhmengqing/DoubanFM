@@ -51,6 +51,7 @@ package Douban.manager.singelar
 			FServerFuncs.push(ServerFunc);
 		}
 		
+		//这里加载，返回在Module类里
 		public function Load(
 			ServerId:uint,
 			SData:* = null):void

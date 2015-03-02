@@ -2,6 +2,7 @@ package Douban.module.hall
 {
 	import Douban.component.*;
 	import Douban.consts.*;
+	import Douban.logics.login.VO.LoginVO;
 	import Douban.logics.song.*;
 	import Douban.logics.song.VO.SongVO;
 	import Douban.manager.*;
@@ -9,6 +10,7 @@ package Douban.module.hall
 	import Douban.manager.statics.*;
 	import Douban.module.hall.component.SongHeart;
 	import Douban.module.hall.musicPlayer.*;
+	import Douban.utils.TUtilityString;
 	import flash.display.Bitmap;
 	import flash.display.Loader;
 	import flash.display.Sprite;
@@ -67,6 +69,7 @@ package Douban.module.hall
 		
 		protected var FSwitchView:Function;
 		protected var FImage:Bitmap;
+		protected var FLoginData:LoginVO;
 		
 		public function ProcessorHallView(
 			Parent:UIComponent) 
@@ -153,7 +156,20 @@ package Douban.module.hall
 			FUnstreamizerSong = new UnstreamizerSong();
 			
 			FSongPlayer = new SongPlayer();	
+			FLoginData = new LoginVO();
 			NextSong();
+		}
+		
+		public function LoginInfo(
+			LoginObj:Object):void
+		{
+			FUnstreamizerSong.UnstreamizerLoginInfo(
+				FLoginData,
+				LoginObj.user_info);
+			FTFLogin.text = FLoginData.Name;
+			FTFSongCount.text = TUtilityString.Format(
+				CONST_STRING.String_Hall_02,
+				FLoginData.Played);
 		}
 		
 		private function OnLoginLink(

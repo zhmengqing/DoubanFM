@@ -118,8 +118,10 @@ package Douban.module
 						break;
 					}
 					trace("Login succ");
+					
 					SwitchView(FHallView);
 					FHallView.InitView();
+					FHallView.LoginInfo(Obj)
 					break;
 				//下一首
 				case CONST_SERVERID.SERVERID_SONG:
