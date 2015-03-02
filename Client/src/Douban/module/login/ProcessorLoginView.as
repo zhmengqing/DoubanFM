@@ -27,7 +27,12 @@ package Douban.module.login
 		protected var FTFInfo:TextField;
 		protected var FMountPoint:Sprite;
 		protected var FBtnLogin:UIButtton;
+		protected var FBtnGuest:UIButtton;
 		protected var FCaptchaId:String;
+		protected var FIsInit:Boolean;
+		
+		protected var FSwitchView:Function;
+		protected var FImage:Bitmap;
 		
 		public function ProcessorLoginView(
 			Parent:UIComponent) 
@@ -38,6 +43,12 @@ package Douban.module.login
 		
 		public function InitView():void
 		{
+			if (FIsInit)
+			{
+				LoadCaptcha();
+				return;
+			}
+			FIsInit = true;
 			FMainUI = DomainManager.CreateDisplayByName(
 				CONST_RESOURCE.RESOURCE_VIEW_Login) as Sprite;
 				
@@ -50,10 +61,23 @@ package Douban.module.login
 			FBtnLogin = new UIButtton();
 			FBtnLogin.Substrate = FMainUI["Btn_Login"];
 			FBtnLogin.OnClick = LoginOnClick;
+			FBtnGuest = new UIButtton();
+			FBtnGuest.Substrate = FMainUI["Btn_Guest"];
+			FBtnGuest.OnClick = GuestOnClick;
 			FMountPoint = FMainUI["MC_Mount"];
+			FImage = new Bitmap();
+			FImage.smoothing = true;
+			FMountPoint.addChild(FImage);
 			FMountPoint.addEventListener(MouseEvent.CLICK, CapchaOnClick);
 			
 			LoadCaptcha();
+		}
+		
+		private function GuestOnClick(
+			Sender:Object,
+			E:MouseEvent):void 
+		{
+			FSwitchView(this);
 		}
 		
 		private function LoginOnClick(
@@ -76,7 +100,7 @@ package Douban.module.login
 		
 		private function CapchaOnClick(e:MouseEvent):void 
 		{
-			FMountPoint.removeChildren();
+			FImage.bitmapData = null;
 			LoadCaptcha();
 		}
 		
@@ -92,7 +116,7 @@ package Douban.module.login
 		{
 			if(Visible)
 			{
-				FMountPoint.addChild(Image);
+				FImage.bitmapData = (Image.content as Bitmap).bitmapData;
 			}
 		}
 		
@@ -110,6 +134,16 @@ package Douban.module.login
 		public function set CaptchaId(value:String):void 
 		{
 			FCaptchaId = value;
+		}
+		
+		public function get OnSwitchView():Function 
+		{
+			return FSwitchView;
+		}
+		
+		public function set OnSwitchView(value:Function):void 
+		{
+			FSwitchView = value;
 		}
 		
 	}

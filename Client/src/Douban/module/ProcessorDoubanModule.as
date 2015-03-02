@@ -42,7 +42,9 @@ package Douban.module
 				CONST_RESOURCE.RESOURCEID_MAIN);
 			
 			FLoginView = new ProcessorLoginView(this);
+			FLoginView.OnSwitchView = OnSwitchView;
 			FHallView = new ProcessorHallView(this);
+			FHallView.OnSwitchView = OnSwitchView;
 			
 			SServerManager.OnComplete = ServerOnComplete;
 			
@@ -54,6 +56,24 @@ package Douban.module
 				FHallView]);
 				
 			
+		}
+		
+		private function OnSwitchView(
+			Sender:Object):void 
+		{
+			var View:UIComponent;
+			
+			View = Sender as UIComponent;
+			switch(View)
+			{
+				case FHallView:
+					SwitchView(FLoginView);
+					FLoginView.InitView();
+					break;
+				case FLoginView:
+					SwitchView(FHallView);
+					break;
+			}
 		}
 		
 		private function ImageOnComplete(
@@ -68,6 +88,7 @@ package Douban.module
 		protected function MainLoadComplete():void 
 		{	
 			SwitchView(FHallView);
+			//FLoginView.InitView(SwitchView);
 			FHallView.InitView();			
 		}
 		
@@ -102,7 +123,7 @@ package Douban.module
 					break;
 				//下一首
 				case CONST_SERVERID.SERVERID_SONG:
-					trace("music");					
+					trace("music");
 					FHallView.SetData(Obj);
 					if(FHallView.NeedSkip)
 					{
@@ -110,7 +131,7 @@ package Douban.module
 						if (FHallView.CurSong == null) break;
 						FImageLoader.loadResource(
 							FHallView.CurSong.PictureUrl);
-					}					
+					}
 					break;
 			}
 		}

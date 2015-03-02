@@ -9,9 +9,11 @@ package Douban.module.hall
 	import Douban.manager.statics.*;
 	import Douban.module.hall.component.SongHeart;
 	import Douban.module.hall.musicPlayer.*;
+	import flash.display.Bitmap;
 	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import flash.events.TextEvent;
 	import flash.net.*;
 	import flash.text.TextField;
 	import flash.utils.getTimer;
@@ -29,6 +31,9 @@ package Douban.module.hall
 		
 		protected static const Pic_Width:int = 250;
 		protected static const Pic_Height:int = 250;
+		
+		/**进度条个数*/
+		protected static const BAR_NUM:int = 2;
 		
 		protected var FMainUI:Sprite;
 		protected var FMountPoint:Sprite;
@@ -60,6 +65,9 @@ package Douban.module.hall
 		protected var FNeedSkip:Boolean;//直接跳下一首
 		protected var FLastSid:String;//上一首的sid
 		
+		protected var FSwitchView:Function;
+		protected var FImage:Bitmap;
+		
 		public function ProcessorHallView(
 			Parent:UIComponent) 
 		{
@@ -73,6 +81,7 @@ package Douban.module.hall
 		{
 			if (FIsInit)
 			{
+				NextSong();
 				return;
 			}
 			FIsInit = true;
@@ -82,12 +91,15 @@ package Douban.module.hall
 			this.addChild(FMainUI);
 			
 			FMountPoint = FMainUI["MC_MountPoint"];
+			FImage = new Bitmap();
+			FImage.smoothing = true;
+			FMountPoint.addChild(FImage);
 			
 			FBtnNext = new UIButtton();
 			FBtnNext.Substrate = FMainUI["Btn_Next"];
 			FBtnNext.OnClick = OnNextSong;
 			
-			FBarSong = new UIBar(CONST_HALL.BAR_NUM);
+			FBarSong = new UIBar(BAR_NUM);
 			FBarSong.OnOver = OnSongBarOver;
 			FBarSong.OnOut = OnSongBarOut;
 			FBarSong.OnClick = OnSongBarClick;
@@ -108,7 +120,8 @@ package Douban.module.hall
 			FTFTitle.text = "";
 			
 			FTFLogin = FMainUI["TF_Login"];
-			FTFLogin.text = "";
+			FTFLogin.htmlText = CONST_STRING.String_Hall_01;
+			FTFLogin.addEventListener(TextEvent.LINK, OnLoginLink);
 			
 			FTFSongCount = FMainUI["TF_SongCount"];
 			FTFSongCount.text = "";
@@ -139,9 +152,14 @@ package Douban.module.hall
 			
 			FUnstreamizerSong = new UnstreamizerSong();
 			
-			FSongPlayer = new SongPlayer();
-			
+			FSongPlayer = new SongPlayer();	
 			NextSong();
+		}
+		
+		private function OnLoginLink(
+			e:TextEvent):void 
+		{
+			FSwitchView(this);
 		}
 		
 		private function OnResume(
@@ -362,9 +380,9 @@ package Douban.module.hall
 			{
 				ImageH = Image.height;
 				ImageW = Image.width;
-				Image.width = Pic_Width;
-				Image.height = ImageH / ImageW * Pic_Width;
-				FMountPoint.addChild(Image);
+				FImage.bitmapData = (Image.content as Bitmap).bitmapData;
+				FImage.width = Pic_Width;
+				FImage.height = ImageH / ImageW * Pic_Width;
 			}
 		}
 		
@@ -376,6 +394,16 @@ package Douban.module.hall
 		public function get NeedSkip():Boolean
 		{
 			return FNeedSkip;
+		}
+		
+		public function get OnSwitchView():Function 
+		{
+			return FSwitchView;
+		}
+		
+		public function set OnSwitchView(value:Function):void 
+		{
+			FSwitchView = value;
 		}
 		
 	}
