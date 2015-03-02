@@ -102,7 +102,7 @@ package Douban.manager.singelar
 		
 		private function OnServerComplete(Str:String):void 
 		{
-			trace(Str);
+			trace("收到返回 " + Str);
 			if (FOnComplete != null)
 			{
 				FOnComplete(Str);

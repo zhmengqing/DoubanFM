@@ -30,14 +30,16 @@ package Douban.module.hall.musicPlayer
 			ResetData();
 		}
 		
-		public function PlayNext(Pt:String = "0.0"):void
+		public function PlayNext(
+			Pt:String = "",
+			Sid:String = ""):void
 		{
 			var ReqUrl:String;
 			var Md5Req:String;
 			
-			FPt = Pt;
+			FPt = Pt == ""?"0.0":Pt;
 			FCurSongVO = FSongList.GetCurSong();
-			FSid = FCurSongVO != null ? FCurSongVO.Sid:"";
+			FSid = FCurSongVO != null ? FCurSongVO.Sid:Sid;
 			FChannel = FSongList.CurChannel;
 			
 			ReqUrl = CONST_URL.MUSIC_URL;
@@ -59,7 +61,7 @@ package Douban.module.hall.musicPlayer
 			
 			Md5Req = TMD5.Hash(ReqUrl + CONST_SONGINFO.MD5_KEY).substr(-10)
 			ReqUrl += "&r=" + Md5Req;
-			trace(ReqUrl);
+			trace("发送链接 " + ReqUrl);
 			SServerManager.Load(
 				CONST_SERVERID.SERVERID_SONG,
 				ReqUrl);

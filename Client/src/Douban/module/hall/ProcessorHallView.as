@@ -56,6 +56,7 @@ package Douban.module.hall
 		protected var FBarCurTime:Number;//当前音乐走到的时间：秒
 		
 		protected var FNeedSkip:Boolean;//直接跳下一首
+		protected var FLastSid:String;//上一首的sid
 		
 		public function ProcessorHallView(
 			Parent:UIComponent) 
@@ -250,7 +251,9 @@ package Douban.module.hall
 		protected function SongPlayOut():void
 		{
 			FSongPlayer.SongType = CONST_SONGINFO.TYPE_PLAYOUT;
-			FSongPlayer.PlayNext();
+			FSongPlayer.PlayNext(				
+				"",
+				FLastSid);
 			FSongHeart.ShowHeart(SongHeart.Type_Black);
 		}
 		
@@ -267,7 +270,10 @@ package Douban.module.hall
 		public function NextSong():void
 		{
 			FSongPlayer.PlayNext(FBarCurTime.toFixed(1));		
-			FSongHeart.ShowHeart(SongHeart.Type_Black);
+			if (FNeedSkip)
+			{
+				FSongHeart.ShowHeart(SongHeart.Type_Black);
+			}
 		}
 		
 		//播放音乐
@@ -293,6 +299,9 @@ package Douban.module.hall
 				}
 				FCurSong = FSongPlayer.SongList.GetSongByIndex(CurIndex);
 			}
+			
+			FLastSid = CurSong.Sid;
+			
 			FSongManager.Load(
 				FCurSong.SongUrl,
 				OnSongComplete);

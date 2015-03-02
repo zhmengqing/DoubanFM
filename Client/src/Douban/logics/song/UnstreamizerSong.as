@@ -65,14 +65,6 @@ package Douban.logics.song
 			SongUrl += "?start=" + CurSong.Sid + "g" + CurSong.Ssid + "g" + SongData.CurChannel;
 			SongUrl += "&cid=" + Cid;
 			ShareUrl = CONST_URL.SHARE_URL;
-			//ShareUrl += "?appkey=" + CONST_SONGINFO.APP_KEY;
-			//ShareUrl += "&url=" + SongUrl;
-			//ShareUrl += "&title=" + "分享 " + CurSong.Artist + " 的单曲《" + CurSong.Title + "》";
-			//ShareUrl += "&ralatedUid=" + CONST_SONGINFO.ID_DOUBAN_SINA;
-			//ShareUrl += "&source=test";
-			//ShareUrl += "&sourceUrl=";
-			//ShareUrl += "&content=" + "utf-8";
-			//ShareUrl += "&pic=" + CurSong.PictureUrl;
 			
 			Vars.appkey = CONST_SONGINFO.APP_KEY;
 			Vars.url = SongUrl;
@@ -83,7 +75,7 @@ package Douban.logics.song
 			Vars.content = "utf-8";
 			Vars.pic = CurSong.PictureUrl;
 			
-			trace(ShareUrl + Vars);
+			trace("分享链接 " + ShareUrl + Vars);
 			navigateToURL(new URLRequest(ShareUrl + "?" + Vars), "_blank");
 		}		
 	}

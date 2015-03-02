@@ -107,6 +107,7 @@ package Douban.module
 					if(FHallView.NeedSkip)
 					{
 						FHallView.LoadSong();
+						if (FHallView.CurSong == null) break;
 						FImageLoader.loadResource(
 							FHallView.CurSong.PictureUrl);
 					}					
