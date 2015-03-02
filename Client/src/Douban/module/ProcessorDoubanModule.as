@@ -67,7 +67,8 @@ package Douban.module
 		
 		protected function MainLoadComplete():void 
 		{	
-			FLoginView.InitView();			
+			SwitchView(FHallView);
+			FHallView.InitView();			
 		}
 		
 		protected function ServerOnComplete(
@@ -98,7 +99,6 @@ package Douban.module
 					trace("Login succ");
 					SwitchView(FHallView);
 					FHallView.InitView();
-					FHallView.NextSong();
 					break;
 				//下一首
 				case CONST_SERVERID.SERVERID_SONG:

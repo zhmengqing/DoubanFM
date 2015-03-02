@@ -33,7 +33,7 @@ package Douban.module.login
 			Parent:UIComponent) 
 		{
 			super(Parent);
-			
+			Visible = false;
 		}
 		
 		public function InitView():void

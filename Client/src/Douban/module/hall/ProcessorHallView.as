@@ -40,6 +40,8 @@ package Douban.module.hall
 		protected var FTFArtist:TextField;
 		protected var FTFAlbumtitle:TextField;
 		protected var FTFTitle:TextField;
+		protected var FTFLogin:TextField;
+		protected var FTFSongCount:TextField;
 		protected var FSongHeart:SongHeart;
 		protected var FBtnBin:UIButtton;
 		protected var FBtnPause:UIButtton;
@@ -64,6 +66,7 @@ package Douban.module.hall
 			super(Parent);
 			Visible = false;
 			FNeedSkip = true;
+			FBarCurTime = 0;
 		}
 		
 		public function InitView():void
@@ -104,6 +107,12 @@ package Douban.module.hall
 			FTFTitle = FMainUI["TF_Title"];
 			FTFTitle.text = "";
 			
+			FTFLogin = FMainUI["TF_Login"];
+			FTFLogin.text = "";
+			
+			FTFSongCount = FMainUI["TF_SongCount"];
+			FTFSongCount.text = "";
+			
 			FBtnShare = new UIButtton();
 			FBtnShare.Substrate = FMainUI["Btn_Share"];
 			FBtnShare.OnClick = OnShare;
@@ -131,6 +140,8 @@ package Douban.module.hall
 			FUnstreamizerSong = new UnstreamizerSong();
 			
 			FSongPlayer = new SongPlayer();
+			
+			NextSong();
 		}
 		
 		private function OnResume(
@@ -251,7 +262,7 @@ package Douban.module.hall
 		protected function SongPlayOut():void
 		{
 			FSongPlayer.SongType = CONST_SONGINFO.TYPE_PLAYOUT;
-			FSongPlayer.PlayNext(				
+			FSongPlayer.PlayNext(
 				"",
 				FLastSid);
 			FSongHeart.ShowHeart(SongHeart.Type_Black);
