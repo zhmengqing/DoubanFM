@@ -3,11 +3,21 @@ package Douban.component
 	import flash.display.*;
 	import flash.events.MouseEvent;
 	/**
-	 * ...
+	 * 进度条
 	 * @author zhmq
+	 * 
+	 * @param 进度条中的Bar个数
+	 * @param 是否全部置为零
+	 * Substrate 进度条资源赋值，里面每个bar分别赋值为MC_Bar0，MC_Bar1
+	 * 可响应click，over，out的鼠标事件
+	 * wheel事件要WheelEnabled为true的时候
+	 * BarScale是当前上层的bar
 	 */
 	public class UIBar 
 	{
+		//滚动的时候bar进度
+		protected static const Wheel_Offset:Number = 0.05;
+		
 		public var BarScale:Number;
 		protected var FSubstrate:Sprite;
 		protected var FBars:Vector.<Sprite>;
@@ -16,6 +26,7 @@ package Douban.component
 		protected var FOnClick:Function;
 		protected var FOnOver:Function;
 		protected var FOnOut:Function;
+		protected var FWheelEnabled:Boolean;
 		
 		protected var FIsInitialization:Boolean;
 		
@@ -47,13 +58,39 @@ package Douban.component
 				
 			}		
 			
-			FSubstrate.addEventListener(MouseEvent.CLICK, BtbOnClick);
-			FSubstrate.addEventListener(MouseEvent.MOUSE_MOVE, BtbOnOver);
-			FSubstrate.addEventListener(MouseEvent.MOUSE_OUT, BtbOnOut);
+			FSubstrate.addEventListener(MouseEvent.MOUSE_DOWN, BarOnClick);
+			FSubstrate.addEventListener(MouseEvent.MOUSE_MOVE, BarOnOver);
+			FSubstrate.addEventListener(MouseEvent.MOUSE_OUT, BarOnOut);
+			FSubstrate.addEventListener(MouseEvent.MOUSE_WHEEL, BarOnWheel);
 		}
 		
-		private function BtbOnOut(e:MouseEvent):void 
+		//有缺陷，只会设置第零个bar
+		private function BarOnWheel(e:MouseEvent):void 
 		{
+			if (!FWheelEnabled) return;
+			if (e.delta > 0)
+			{
+				BarScale += Wheel_Offset;
+				BarScale = BarScale > 1?1:BarScale;				
+			}
+			else
+			{
+				BarScale -= Wheel_Offset;
+				BarScale = BarScale < 0?0:BarScale;				
+			}
+			
+			if (FOnClick != null)
+			{
+				FOnClick(
+					this,
+					e);
+			}
+		}
+		
+		private function BarOnOut(e:MouseEvent):void 
+		{
+			//e.stopImmediatePropagation();
+			e.stopPropagation();
 			if (FOnOut != null)
 			{
 				FOnOut(
@@ -62,8 +99,10 @@ package Douban.component
 			}
 		}
 		
-		private function BtbOnOver(e:MouseEvent):void 
+		private function BarOnOver(e:MouseEvent):void 
 		{
+			//e.stopImmediatePropagation();
+			e.stopPropagation();
 			BarScale = FSubstrate.mouseX / FSubstrate.width;
 			if (FOnOver != null)
 			{
@@ -73,9 +112,10 @@ package Douban.component
 			}
 		}
 		
-		private function BtbOnClick(e:MouseEvent):void 
+		private function BarOnClick(e:MouseEvent):void 
 		{
 			BarScale = FSubstrate.mouseX / FSubstrate.width;
+			BarScale = Number(BarScale.toFixed(2));
 			if (FOnClick != null)
 			{
 				FOnClick(
@@ -144,6 +184,16 @@ package Douban.component
 		public function set OnOut(value:Function):void 
 		{
 			FOnOut = value;
+		}
+		
+		public function get WheelEnabled():Boolean 
+		{
+			return FWheelEnabled;
+		}
+		
+		public function set WheelEnabled(value:Boolean):void 
+		{
+			FWheelEnabled = value;
 		}
 		
 	}

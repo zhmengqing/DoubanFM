@@ -7,6 +7,7 @@ package Douban.logics.song
 	import flash.net.navigateToURL;
 	import flash.net.URLRequest;
 	import flash.net.URLVariables;
+	import flash.system.System;
 	
 	/**
 	 * ...
@@ -95,8 +96,9 @@ package Douban.logics.song
 			Vars.content = "utf-8";
 			Vars.pic = CurSong.PictureUrl;
 			
+			System.setClipboard(SongUrl);
 			trace("分享链接 " + ShareUrl + Vars);
-			navigateToURL(new URLRequest(ShareUrl + "?" + Vars), "_blank");
+			//navigateToURL(new URLRequest(ShareUrl + "?" + Vars), "_blank");
 		}		
 	}
 

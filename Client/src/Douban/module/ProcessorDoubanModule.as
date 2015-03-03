@@ -10,6 +10,7 @@ package Douban.module
 	import Douban.manager.statics.DomainManager;
 	import Douban.manager.singelar.SResourceManager;
 	import Douban.manager.singelar.SServerManager;
+	import Douban.manager.statics.ShareObjectManager;
 	import Douban.module.hall.ProcessorHallView;
 	import Douban.module.login.ProcessorLoginView;
 	import Douban.window.ProcessorWindow;
@@ -33,6 +34,8 @@ package Douban.module
 			Parent:UIComponent) 
 		{
 			super(Parent);
+			
+			ShareObjectManager.Init();
 			
 			SResourceManager.RegisterLoadResource(
 				CONST_RESOURCE.RESOURCEID_MAIN,

@@ -9,6 +9,7 @@ package Douban.module.hall
 	import Douban.manager.singelar.*;
 	import Douban.manager.statics.*;
 	import Douban.module.hall.component.SongHeart;
+	import Douban.module.hall.component.SongLouder;
 	import Douban.module.hall.musicPlayer.*;
 	import Douban.utils.TUtilityString;
 	import flash.display.Bitmap;
@@ -16,6 +17,7 @@ package Douban.module.hall
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.events.TextEvent;
+	import flash.media.SoundTransform;
 	import flash.net.*;
 	import flash.text.TextField;
 	import flash.utils.getTimer;
@@ -53,6 +55,7 @@ package Douban.module.hall
 		protected var FBtnBin:UIButtton;
 		protected var FBtnPause:UIButtton;
 		protected var FBtnMask:UIButtton;
+		protected var FSongLouder:SongLouder;
 		
 		protected var FIsInit:Boolean;
 		protected var FUnstreamizerSong:UnstreamizerSong;
@@ -70,6 +73,8 @@ package Douban.module.hall
 		protected var FSwitchView:Function;
 		protected var FImage:Bitmap;
 		protected var FLoginData:LoginVO;
+		
+		protected var FVolumeTrainsform:SoundTransform;
 		
 		public function ProcessorHallView(
 			Parent:UIComponent) 
@@ -95,7 +100,7 @@ package Douban.module.hall
 			
 			FMountPoint = FMainUI["MC_MountPoint"];
 			FImage = new Bitmap();
-			FImage.smoothing = true;
+			
 			FMountPoint.addChild(FImage);
 			
 			FBtnNext = new UIButtton();
@@ -150,14 +155,45 @@ package Douban.module.hall
 			FBtnMask.OnClick = OnResume;
 			FBtnMask.Visible = false;
 			
+			FSongLouder = new SongLouder(FMainUI["MC_Loud"]);
+			FSongLouder.OnLouderOver = OnLouderOver;
+			FSongLouder.OnLouderOut = OnLouderOut;
+			FSongLouder.OnVolumeChange = OnVolumeChange;
+			
 			FSongManager = new SongConnection();
 			FSongManager.OnMetaData = OnMetaData;
+			
 			
 			FUnstreamizerSong = new UnstreamizerSong();
 			
 			FSongPlayer = new SongPlayer();	
 			FLoginData = new LoginVO();
+			
+			FVolumeTrainsform = new SoundTransform();
+			FVolumeTrainsform.volume = 
+				ShareObjectManager.GetData(CONST_SHAREDOBJECT.VOLUME);
 			NextSong();
+		}
+		
+		//音量
+		private function OnVolumeChange(Scale:Number):void 
+		{
+			FVolumeTrainsform.volume = Scale;
+			FSongManager.Stream.soundTransform = FVolumeTrainsform;
+			ShareObjectManager.SetData(
+				CONST_SHAREDOBJECT.VOLUME,
+				Scale);
+			ShareObjectManager.Save();
+		}
+		
+		private function OnLouderOver():void 
+		{
+			FTFLeftTime.visible = false;
+		}
+		
+		private function OnLouderOut():void 
+		{
+			FTFLeftTime.visible = true;
 		}
 		
 		public function LoginInfo(
@@ -364,6 +400,11 @@ package Douban.module.hall
 			
 			super.Update();
 			
+			if (FSongLouder != null)
+			{
+				FSongLouder.Update();
+			}
+			
 			if (FSongManager == null) return;
 			
 			Stream = FSongManager.Stream;
@@ -397,6 +438,7 @@ package Douban.module.hall
 				ImageH = Image.height;
 				ImageW = Image.width;
 				FImage.bitmapData = (Image.content as Bitmap).bitmapData;
+				FImage.smoothing = true;
 				FImage.width = Pic_Width;
 				FImage.height = ImageH / ImageW * Pic_Width;
 			}
