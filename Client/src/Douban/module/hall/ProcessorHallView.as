@@ -51,7 +51,7 @@ package Douban.module.hall
 		protected var FTFTitle:TextField;
 		protected var FTFLogin:TextField;
 		protected var FTFSongCount:TextField;
-		protected var FSongHeart:SongHeart;
+		protected var FSongHeart:UIToggleButton;
 		protected var FBtnBin:UIButtton;
 		protected var FBtnPause:UIButtton;
 		protected var FBtnMask:UIButtton;
@@ -146,9 +146,9 @@ package Douban.module.hall
 			FBtnPause.Substrate = FMainUI["Btn_Pause"];
 			FBtnPause.OnClick = OnPause;
 			
-			FSongHeart = new SongHeart(FMainUI["SP_Heart"]);
-			FSongHeart.OnBlackClick = OnBlackClick;
-			FSongHeart.OnRedClick = OnRedClick;
+			FSongHeart = new UIToggleButton();
+			FSongHeart.Substrate = FMainUI["SP_Heart"];
+			FSongHeart.OnClick = OnHeartClick;
 			
 			FBtnMask = new UIButtton();
 			FBtnMask.Substrate = FMainUI["MC_Mask"];
@@ -232,25 +232,21 @@ package Douban.module.hall
 			FBtnMask.Visible = true;
 		}
 		
-		private function OnRedClick(
+		private function OnHeartClick(
 			Sender:Object,
 			E:MouseEvent):void 
 		{
-			FSongPlayer.SongType = CONST_SONGINFO.TYPE_UNLIKE;
-			FSongHeart.ShowHeart(SongHeart.Type_Black);
+			if (!FSongHeart.IsSelected)
+			{
+				FSongPlayer.SongType = CONST_SONGINFO.TYPE_UNLIKE;
+			}
+			else
+			{
+				FSongPlayer.SongType = CONST_SONGINFO.TYPE_LIKE;
+			}
 			FNeedSkip = false;
 			NextSong();
-		}
-		
-		private function OnBlackClick(
-			Sender:Object,
-			E:MouseEvent):void 
-		{
-			FSongPlayer.SongType = CONST_SONGINFO.TYPE_LIKE;
-			FSongHeart.ShowHeart(SongHeart.Type_Red);
-			FNeedSkip = false;
-			NextSong();
-		}
+		}		
 		
 		private function OnDustbin(
 			Sender:Object,
@@ -335,7 +331,8 @@ package Douban.module.hall
 			FSongPlayer.PlayNext(
 				"",
 				FLastSid);
-			FSongHeart.ShowHeart(SongHeart.Type_Black);
+			FSongHeart.IsSelected = false;
+			//FSongHeart.ShowHeart(SongHeart.Type_Black);
 		}
 		
 		public function SetData(
@@ -353,7 +350,8 @@ package Douban.module.hall
 			FSongPlayer.PlayNext(FBarCurTime.toFixed(1));		
 			if (FNeedSkip)
 			{
-				FSongHeart.ShowHeart(SongHeart.Type_Black);
+				FSongHeart.IsSelected = false;
+				//FSongHeart.ShowHeart(SongHeart.Type_Black);
 			}
 		}
 		
@@ -390,7 +388,8 @@ package Douban.module.hall
 			FTFArtist.text = FCurSong.Artist;
 			FTFAlbumtitle.text = "<" + FCurSong.Albumtitle + "> " + FCurSong.PublicTime;
 			FTFTitle.text = FCurSong.Title;
-			FSongHeart.ShowHeart(FCurSong.Like);
+			FSongHeart.IsSelected = FCurSong.Like == 1;
+			//FSongHeart.ShowHeart(FCurSong.Like);
 		}
 		
 		override public function Update():void 
