@@ -8,6 +8,7 @@ package Douban.component.list
 	{
 		protected var FXOffset:int;
 		protected var FYOffset:int;
+		protected var FGap:int;
 		
 		protected var FDataList:Array;
 		
@@ -90,6 +91,16 @@ package Douban.component.list
 		public function set YOffset(value:int):void 
 		{
 			FYOffset = value;
+		}
+		
+		public function get Gap():int 
+		{
+			return FGap;
+		}
+		
+		public function set Gap(value:int):void 
+		{
+			FGap = value;
 		}
 		
 	}

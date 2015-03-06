@@ -8,6 +8,7 @@ package Douban.module.hall
 	import Douban.manager.*;
 	import Douban.manager.singelar.*;
 	import Douban.manager.statics.*;
+	import Douban.module.hall.channelList.ChannelList;
 	import Douban.module.hall.component.SongHeart;
 	import Douban.module.hall.component.SongLouder;
 	import Douban.module.hall.musicPlayer.*;
@@ -75,6 +76,9 @@ package Douban.module.hall
 		protected var FLoginData:LoginVO;
 		
 		protected var FVolumeTrainsform:SoundTransform;
+		
+		//频道列表
+		protected var FChannelList:ChannelList;
 		
 		public function ProcessorHallView(
 			Parent:UIComponent) 

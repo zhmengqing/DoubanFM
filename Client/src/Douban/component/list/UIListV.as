@@ -33,13 +33,17 @@ package Douban.component.list
 		
 		protected function AddItem():void
 		{
+			var Index:int;
+			var YOffset:int;
 			var Item:UIListRenderer;
+			
+			YOffset = FDataCollection.YOffset - FDataCollection.Gap;
 			
 			for (Index = 0; Index < args.length; Index++)
 			{
 				Item = new UIListRenderer();	
 				Item.x = FDataCollection.XOffset;
-				Item.y = FDataCollection.YOffset;
+				Item.y = YOffset + FDataCollection.Gap + Item.height;
 				
 				FItemVec.push(Item);
 			}
