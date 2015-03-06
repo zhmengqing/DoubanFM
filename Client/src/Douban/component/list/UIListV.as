@@ -5,11 +5,11 @@ package Douban.component.list
 	 * ...
 	 * @author zhmq
 	 */
-	public class UIList extends UIComponent 
+	public class UIListV extends UIBaseList 
 	{
 		protected var FDataCollection:UIListDataCollection;
 		protected var FItemVec:Vector.<UIListRenderer>;
-		public function UIList(Parent:UIComponent) 
+		public function UIListV(Parent:UIComponent) 
 		{
 			super(Parent);
 			FItemVec = new Vector.<UIListRenderer>;
@@ -38,7 +38,8 @@ package Douban.component.list
 			for (Index = 0; Index < args.length; Index++)
 			{
 				Item = new UIListRenderer();	
-				Item.x = 
+				Item.x = FDataCollection.XOffset;
+				Item.y = FDataCollection.YOffset;
 				
 				FItemVec.push(Item);
 			}
