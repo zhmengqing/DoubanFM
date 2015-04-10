@@ -15,7 +15,7 @@ package Douban.component.list
 		}
 		
 		public function UpdateData(
-			Data:*):void
+			Data:Object):void
 		{
 			
 		}

@@ -31,7 +31,7 @@ package Douban.component.list
 			}			
 		}
 		
-		protected function AddItem():void
+		protected function AddItem(...args):void
 		{
 			var Index:int;
 			var YOffset:int;
@@ -41,7 +41,7 @@ package Douban.component.list
 			
 			for (Index = 0; Index < args.length; Index++)
 			{
-				Item = new UIListRenderer();	
+				Item = new UIListRenderer(this);	
 				Item.x = FDataCollection.XOffset;
 				Item.y = YOffset + FDataCollection.Gap + Item.height;
 				

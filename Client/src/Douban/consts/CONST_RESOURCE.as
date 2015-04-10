@@ -15,6 +15,8 @@ package Douban.consts
 		public static const RESOURCE_VIEW_Login:String = "MC_Login_View";
 		public static const RESOURCE_VIEW_Hall:String = "MC_Hall_View";
 		
+		public static const RESOURCE_COMPONENT_ScrollBar:String = "MC_ScrollBar";
+		
 		public function CONST_RESOURCE() 
 		{
 			

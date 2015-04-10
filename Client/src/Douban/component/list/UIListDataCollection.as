@@ -18,14 +18,14 @@ package Douban.component.list
 		}
 		
 		public function GetDataByIndex(
-			Index:int):void
+			Index:int):Object
 		{
 			return FDataList[Index];
 		}
 		
 		/**把数据添加到某个位置，每个数据只能出现一次*/
 		public function AddData(
-			Data:*):void
+			Data:Object):void
 		{
 			var Index:int;
 			
@@ -38,7 +38,7 @@ package Douban.component.list
 		}
 		
 		public function RemoveData(
-			Data:*):void
+			Data:Object):void
 		{
 			var Index:int;
 			
@@ -51,7 +51,7 @@ package Douban.component.list
 		}
 		
 		public function ExchangeData(
-			Data:*,
+			Data:Object,
 			PrePos:int,
 			CurPos:int):void
 		{
