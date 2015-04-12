@@ -1,4 +1,4 @@
-package Douban.module.hall.channelList 
+package Douban.module.hall.hiddenLists.channelList 
 {
 	import Douban.component.list.UIListV;
 	import Douban.component.UIComponent;

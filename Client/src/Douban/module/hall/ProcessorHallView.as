@@ -8,9 +8,10 @@ package Douban.module.hall
 	import Douban.manager.*;
 	import Douban.manager.singelar.*;
 	import Douban.manager.statics.*;
-	import Douban.module.hall.channelList.ChannelList;
+	import Douban.module.hall.hiddenLists.channelList.ChannelList;
 	import Douban.module.hall.component.SongHeart;
 	import Douban.module.hall.component.SongLouder;
+	import Douban.module.hall.hiddenLists.ProcessorHallHidden;
 	import Douban.module.hall.musicPlayer.*;
 	import Douban.utils.TUtilityString;
 	import flash.display.Bitmap;
@@ -77,8 +78,8 @@ package Douban.module.hall
 		
 		protected var FVolumeTrainsform:SoundTransform;
 		
-		//频道列表
-		protected var FChannelList:ChannelList;
+		//频道列表、音乐列表
+		protected var FHallHidden:ProcessorHallHidden;
 		
 		public function ProcessorHallView(
 			Parent:UIComponent) 
@@ -177,6 +178,10 @@ package Douban.module.hall
 			FVolumeTrainsform.volume = 
 				ShareObjectManager.GetData(CONST_SHAREDOBJECT.VOLUME);
 			NextSong();
+			
+			FHallHidden = new ProcessorHallHidden(
+				this,
+				FMainUI["MC_List"]);
 		}
 		
 		//音量

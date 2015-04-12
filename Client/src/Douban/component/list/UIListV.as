@@ -1,35 +1,29 @@
 package Douban.component.list 
 {
 	import Douban.component.UIComponent;
+	import flash.display.Sprite;
 	/**
 	 * ...
 	 * @author zhmq
 	 */
 	public class UIListV extends UIBaseList 
 	{
-		protected var FDataCollection:UIListDataCollection;
-		protected var FItemVec:Vector.<UIListRenderer>;
-		public function UIListV(Parent:UIComponent) 
+		//---- Constants -------------------------------------------------------
+		
+		//---- Protected Fields ------------------------------------------------
+		
+		//---- Property Fields -------------------------------------------------
+		
+		//---- Constructor -----------------------------------------------------
+		
+		public function UIListV(
+			Parent:UIComponent,
+			MainUI:Sprite) 
 		{
 			super(Parent);
-			FItemVec = new Vector.<UIListRenderer>;
-		}
-		
-		protected function RemoveItem(
-			ItemIndex:int,
-			RemoveCount:int = 1):void
-		{			
-			var Index:int;			
 			
-			for (Index = ItemIndex; Index < RemoveCount; Index++)
-			{	
-				this.removeChild(
-					FItemVec[ItemIndex]);
-				FItemVec.splice(
-					ItemIndex, 
-					1);				
-			}			
 		}
+		//---- Protected Methods -----------------------------------------------
 		
 		protected function AddItem(...args):void
 		{
@@ -42,12 +36,18 @@ package Douban.component.list
 			for (Index = 0; Index < args.length; Index++)
 			{
 				Item = new UIListRenderer(this);	
+				FMountPoint.addChild(Item);
 				Item.x = FDataCollection.XOffset;
 				Item.y = YOffset + FDataCollection.Gap + Item.height;
 				
 				FItemVec.push(Item);
 			}
 		}
+		//---- Event Handling Methods ------------------------------------------
+		
+		//---- Property Accessing Methods --------------------------------------
+		
+		//---- Public Methods ----------------------------------------------------		
 		
 		public function Render():void
 		{
@@ -76,15 +76,6 @@ package Douban.component.list
 			}
 		}
 		
-		public function get DataCollection():UIListDataCollection 
-		{
-			return FDataCollection;
-		}
-		
-		public function set DataCollection(value:UIListDataCollection):void 
-		{
-			FDataCollection = value;
-		}
 		
 	}
 

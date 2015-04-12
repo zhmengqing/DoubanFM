@@ -12,11 +12,12 @@ package Douban.component.scroll
 	/**
 	 * new的时候传入一个textfield初始化长度和位置
 	 * update方法放在逐帧事件中
-	 * setScroll方法传入显示长度和总长度
-	 * 要滚动的元件的位置为Locate
+	 * SetScroll 方法传入显示长度和总长度
+	 * 要滚动的元件的位置为 Locate
 	 * 
-	 * 横向纵向只需设置Direction
-	 * 手动调整长度设置Length
+	 * (若已传入textfield则以下的都不需要设置)
+	 * 手动横向纵向只需设置Direction
+	 * 手动调整长度设置 Length
 	 * @author zhmq
 	 */
 	public class UIScrollBar extends UIComponent 
