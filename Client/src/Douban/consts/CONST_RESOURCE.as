@@ -17,6 +17,9 @@ package Douban.consts
 		
 		public static const RESOURCE_COMPONENT_ScrollBar:String = "MC_ScrollBar";
 		
+		public static const RESOURCE_Render_Music:String = "MC_Render_Music";
+		public static const RESOURCE_Render_Channel:String = "MC_Render_Channel";
+		
 		public function CONST_RESOURCE() 
 		{
 			

@@ -1,6 +1,7 @@
 package Douban.component 
 {
 	import flash.display.Sprite;
+	import flash.display.Stage;
 	
 	/**
 	 * ...
@@ -56,6 +57,28 @@ package Douban.component
 		{
 			FWidth = value;
 		}
+		
+		public function get Parent():UIComponent
+		{
+			return FParent;
+		}
+		
+		public function get UICore():Stage 
+		{
+			var Core:UIComponent;
+			Core = FParent;
+			while (Core.Parent is UIComponent)
+			{
+				Core = Core.Parent;
+				if (Core is UIRoot)
+				{
+					break;
+				}
+			}
+			return Core.UICore;
+			
+		}
+		
 		
 		
 	}

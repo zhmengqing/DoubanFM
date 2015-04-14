@@ -8,6 +8,8 @@ package Douban.component.list
 	public class UIListRenderer extends UIComponent 
 	{
 		
+		protected var FOnSelect:Function;
+		
 		public function UIListRenderer(Parent:UIComponent) 
 		{
 			super(Parent);
@@ -19,6 +21,18 @@ package Douban.component.list
 		{
 			
 		}
+		
+		
+		public function get OnSelect():Function 
+		{
+			return FOnSelect;
+		}
+		
+		public function set OnSelect(value:Function):void 
+		{
+			FOnSelect = value;
+		}
+		
 		
 	}
 

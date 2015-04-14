@@ -2,6 +2,7 @@ package Douban.module.hall
 {
 	import Douban.component.*;
 	import Douban.consts.*;
+	import Douban.logics.common.DoubanDatas;
 	import Douban.logics.login.VO.LoginVO;
 	import Douban.logics.song.*;
 	import Douban.logics.song.VO.SongVO;
@@ -57,6 +58,7 @@ package Douban.module.hall
 		protected var FBtnBin:UIButtton;
 		protected var FBtnPause:UIButtton;
 		protected var FBtnMask:UIButtton;
+		protected var FBtnSave:UIButtton;
 		protected var FSongLouder:SongLouder;
 		
 		protected var FIsInit:Boolean;
@@ -65,6 +67,8 @@ package Douban.module.hall
 		protected var FCurSong:SongVO;
 		protected var FSongManager:SongConnection;
 		protected var FDuration:Number;//音乐总时间：秒
+		
+		protected var FDoubanDatas:DoubanDatas;
 		
 		protected var FSongPlayer:SongPlayer;
 		protected var FBarCurTime:Number;//当前音乐走到的时间：秒
@@ -160,6 +164,10 @@ package Douban.module.hall
 			FBtnMask.OnClick = OnResume;
 			FBtnMask.Visible = false;
 			
+			FBtnSave = new UIButtton();
+			FBtnSave.Substrate = FMainUI["Btn_Save"];
+			FBtnSave.OnClick = OnSave;
+			
 			FSongLouder = new SongLouder(FMainUI["MC_Loud"]);
 			FSongLouder.OnLouderOver = OnLouderOver;
 			FSongLouder.OnLouderOut = OnLouderOut;
@@ -170,6 +178,8 @@ package Douban.module.hall
 			
 			
 			FUnstreamizerSong = new UnstreamizerSong();
+			
+			FDoubanDatas = new DoubanDatas();
 			
 			FSongPlayer = new SongPlayer();	
 			FLoginData = new LoginVO();
@@ -221,6 +231,20 @@ package Douban.module.hall
 			e:TextEvent):void 
 		{
 			FSwitchView(this);
+		}
+		
+		private function OnSave(
+			Sender:Object,
+			E:MouseEvent):void
+		{
+			FDoubanDatas.Musics.Add(FCurSong);
+			ShareObjectManager.SetData(
+				CONST_SHAREDOBJECT.Save_Lists,
+				FDoubanDatas);
+			ShareObjectManager.Save();
+			FHallHidden.UpdateData(
+				FDoubanDatas,
+				CONST_LISTS.LIST_Music);
 		}
 		
 		private function OnResume(
@@ -407,6 +431,11 @@ package Douban.module.hall
 			var BarScare:Number;
 			
 			super.Update();
+			
+			if (FHallHidden != null)
+			{
+				FHallHidden.Update();			
+			}
 			
 			if (FSongLouder != null)
 			{

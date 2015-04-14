@@ -2,6 +2,7 @@ package Douban.component.list
 {
 	import Douban.component.scroll.UIScrollBar;
 	import Douban.component.UIComponent;
+	import Douban.consts.CONST_COMMON;
 	import flash.display.Sprite;
 	
 	/**
@@ -22,6 +23,9 @@ package Douban.component.list
 		
 		//---- Property Fields -------------------------------------------------
 		
+		protected var FRenderer:Class;
+		protected var FOnSelect:Function;
+		
 		//---- Constructor -----------------------------------------------------
 		
 		public function UIBaseList(
@@ -39,23 +43,15 @@ package Douban.component.list
 		
 		//---- Protected Methods -----------------------------------------------		
 		
-		protected function RemoveItem(
-			ItemIndex:int,
-			RemoveCount:int = 1):void
-		{			
-			var Index:int;			
-			
-			for (Index = ItemIndex; Index < RemoveCount; Index++)
-			{	
-				this.removeChild(
-					FItemVec[ItemIndex]);
-				FItemVec.splice(
-					ItemIndex, 
-					1);				
-			}			
-		}		
-		
 		//---- Event Handling Methods ------------------------------------------
+		
+		protected function OnRenderSelect(Data:Object):void
+		{
+			if (FOnSelect != null)
+			{
+				FOnSelect(Data);
+			}
+		}
 		
 		//---- Property Accessing Methods --------------------------------------
 		
@@ -69,7 +65,52 @@ package Douban.component.list
 			FDataCollection = value;
 		}
 		
+		public function get Renderer():Class 
+		{
+			return FRenderer;
+		}
+		
+		public function set Renderer(value:Class):void 
+		{
+			FRenderer = value;
+		}
+		
+		public function get OnSelect():Function 
+		{
+			return FOnSelect;
+		}
+		
+		public function set OnSelect(value:Function):void 
+		{
+			FOnSelect = value;
+		}
+		
 		//---- Public Methods ----------------------------------------------------
+		
+		public function RemoveItem(
+			ItemIndex:int,
+			RemoveCount:int = 1):void
+		{			
+			var Index:int;			
+			
+			for (Index = ItemIndex; Index < RemoveCount; Index++)
+			{	
+				this.removeChild(
+					FItemVec[ItemIndex]);
+				FItemVec.splice(
+					ItemIndex, 
+					1);				
+			}			
+		}	
+		
+		override public function Update():void 
+		{
+			super.Update();
+			if (FScroller.Direction == CONST_COMMON.SCROLL_VERTICLE)
+			{
+				FMountPoint.y = FScroller.Locate;
+			}
+		}
 		
 		
 	}

@@ -9,7 +9,7 @@ package Douban.manager.statics
 	public class ShareObjectManager 
 	{
 		protected static const Obj_Name:String = "douban_radio";
-		protected static const Data_Name:String = "snowzeroClient";
+		protected static const Data_Name:String = CONST_SHAREDOBJECT.Data_Name;
 		protected static var FShareData:SharedObject;
 		protected static var FShareObj:Object;
 		public function ShareObjectManager() 
@@ -29,7 +29,7 @@ package Douban.manager.statics
 				FShareData.data[Data_Name] = FShareObj;
 				return;
 			}
-			FShareObj = FShareData.data;
+			FShareObj = FShareData.data[Data_Name];
 		}
 		
 		public static function GetData(Key:String):*

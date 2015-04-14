@@ -25,11 +25,11 @@ package Douban.component.scroll
 		//---- Constants -------------------------------------------------------
 		
 		//bar除以bg的百分比
-		protected function Bar_Percent:Number = 0.8;
+		protected const Bar_Percent:Number = 0.8;
 		//bar与按钮的距离
-		protected function Bar_Offset:int = 2;
+		protected const Bar_Offset:int = 2;
 		//移动一次间隔长度
-		protected function Bar_MoveInterval:int = 15;
+		protected const Bar_MoveInterval:int = 15;
 		
 		//---- Protected Fields ------------------------------------------------
 		
@@ -72,7 +72,9 @@ package Douban.component.scroll
 			FMainUI = DomainManager.CreateDisplayByName(
 				CONST_RESOURCE.RESOURCE_COMPONENT_ScrollBar) as Sprite;
 				
-			this.addChild(FMainUI);
+			Position.parent.addChild(FMainUI);
+			FMainUI.x = Position.x;
+			FMainUI.y = Position.y;
 			
 			FBtnUp = new UIButtton();
 			FBtnUp.Substrate = FMainUI["Btn_Up"];
@@ -89,7 +91,7 @@ package Douban.component.scroll
 			FBtnBar = new UIButtton();
 			FBtnBar.Substrate = FMainUI["Btn_Bar"];
 			FBtnBar.OnMouseDown = BarOnDown;
-			FBtnBar.OnMouseUp = BarOnUp;
+			UICore.addEventListener(MouseEvent.MOUSE_UP, BarOnUp);
 			
 			FMCBg = FMainUI["MC_Bg"];
 			
@@ -156,7 +158,7 @@ package Douban.component.scroll
 				0,
 				FBtnUp.Height + Bar_Offset,
 				0,
-				FLength - FBtnHeight);
+				FLength - FBtnHeight - FBtnBar.Height);
 			FBtnBar.Substrate.startDrag(
 				false,
 				Rect);
@@ -165,7 +167,6 @@ package Douban.component.scroll
 		}
 		
 		protected function BarOnUp(
-			Sender:Object,
 			E:MouseEvent):void
 		{
 			FBtnBar.Substrate.stopDrag();
@@ -183,11 +184,11 @@ package Douban.component.scroll
 		{
 			FLength = value;
 			
-			FMCBg = FLength;
+			FMCBg.height = FLength;
 			FBtnDown.Y = FLength;
 			FBarHeight = FLength - FBtnHeight;
 			FBarStartPos = FBtnUp.Height + Bar_Offset;
-			FBarEndPos = FLength - Bar_Offset - FBtnDown.Height;
+			FBarEndPos = FLength - Bar_Offset - FBtnDown.Height - FBtnBar.Height;
 			
 			
 		}
@@ -239,8 +240,9 @@ package Douban.component.scroll
 		}
 		
 		//逐帧运行
-		public function Update():void
+		override public function Update():void
 		{
+			super.Update();
 			if (!FIsDisplay) return;
 			if (FMoveDirection != 0)
 			{
@@ -257,7 +259,7 @@ package Douban.component.scroll
 				FBtnBar.Y = FBarEndPos;
 				FIsDisplay = false;
 			}
-			FLocate = FDisplayPerBar * (FBtnBar.Y - FBtnUp.Height - Bar_Offset);
+			FLocate = -FDisplayPerBar * (FBtnBar.Y - FBtnUp.Height - Bar_Offset);
 		}
 	}
 

@@ -50,6 +50,12 @@ package Douban.component.list
 			}	
 		}
 		
+		public function Clear():void
+		{
+			FDataList.length = 0;
+			FYOffset = 0;
+		}
+		
 		public function ExchangeData(
 			Data:Object,
 			PrePos:int,

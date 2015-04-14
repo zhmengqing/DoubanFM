@@ -20,12 +20,20 @@ package Douban.component.list
 			Parent:UIComponent,
 			MainUI:Sprite) 
 		{
-			super(Parent);
-			
+			super(
+				Parent,
+				MainUI);
+			FDataCollection = new UIListDataCollection();
 		}
 		//---- Protected Methods -----------------------------------------------
 		
-		protected function AddItem(...args):void
+		//---- Event Handling Methods ------------------------------------------
+		
+		//---- Property Accessing Methods --------------------------------------
+		
+		//---- Public Methods ----------------------------------------------------		
+		
+		public function AddItem(...args):void
 		{
 			var Index:int;
 			var YOffset:int;
@@ -35,21 +43,44 @@ package Douban.component.list
 			
 			for (Index = 0; Index < args.length; Index++)
 			{
-				Item = new UIListRenderer(this);	
+				Item = new FRenderer(this);	
 				FMountPoint.addChild(Item);
 				Item.x = FDataCollection.XOffset;
 				Item.y = YOffset + FDataCollection.Gap + Item.height;
-				
+				Item.UpdateData(args[Index]);
+				Item.OnSelect = OnRenderSelect;
 				FItemVec.push(Item);
+				FDataCollection.AddData(args[Index]);
+				FDataCollection.YOffset = Item.y;
+				FHeight = FDataCollection.YOffset + Item.y + FDataCollection.Gap + Item.height;
 			}
+			
 		}
-		//---- Event Handling Methods ------------------------------------------
 		
-		//---- Property Accessing Methods --------------------------------------
+		public function SetScroll(
+			DisplayLength:int,
+			TotalLength:int):void
+		{
+			FScroller.SetScroll(
+				DisplayLength,
+				TotalLength);
+		}
 		
-		//---- Public Methods ----------------------------------------------------		
+		public function Clear():void
+		{
+			FMountPoint.removeChildren();
+			FItemVec.length = 0;
+			FDataCollection.Clear();
+		}
 		
-		public function Render():void
+		override public function Update():void 
+		{
+			super.Update();
+			
+			FScroller.Update();
+		}
+		
+		/*public function Render():void
 		{
 			var Index:int;
 			var Count:int;
@@ -74,7 +105,7 @@ package Douban.component.list
 			{
 				AddItem();
 			}
-		}
+		}*/
 		
 		
 	}
