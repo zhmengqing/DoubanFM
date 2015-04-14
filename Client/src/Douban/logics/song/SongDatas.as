@@ -70,25 +70,7 @@ package Douban.logics.song
 			{
 				SongObj = Arr[Index];
 				Song = new SongVO();
-				Song.Album = SongObj.album;
-				Song.PictureUrl = SongObj.picture;
-				Song.Ssid = SongObj.ssid;
-				Song.Artist = SongObj.artist;
-				Song.SongUrl = SongObj.url;
-				Song.Company = SongObj.company;
-				Song.Title = SongObj.title;
-				Song.RatingAvg = SongObj.rating_avg;
-				Song.Length = SongObj.length;
-				Song.Subtype = SongObj.subtype;
-				Song.PublicTime = SongObj.public_time;
-				Song.SonglistsCount = SongObj.songlists_count;
-				Song.Sid = SongObj.sid;
-				Song.Aid = SongObj.aid;
-				Song.Sha = SongObj.sha256;
-				Song.Kbps = SongObj.kbps;
-				Song.Albumtitle = SongObj.albumtitle;
-				Song.Like = SongObj.like;
-				Song.AdType = SongObj.adtype;
+				Song.Format(SongObj);
 				Add(Song);
 			}
 		}

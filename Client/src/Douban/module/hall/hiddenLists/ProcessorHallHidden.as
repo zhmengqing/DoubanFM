@@ -74,10 +74,14 @@ package Douban.module.hall.hiddenLists
 		
 		protected function OnListShow():void
 		{
+			var Obj:Object;
 			if (FDoubanDatas == null)
 			{
-				FDoubanDatas = ShareObjectManager.GetData(
-					CONST_SHAREDOBJECT.Save_Lists) as DoubanDatas;
+				FDoubanDatas = new DoubanDatas();
+				Obj = ShareObjectManager.GetData(
+					CONST_SHAREDOBJECT.Save_Lists);
+					
+				FDoubanDatas.Musics.Format(Obj);
 				SetData(FDoubanDatas);
 			}
 		}

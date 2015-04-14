@@ -11,7 +11,8 @@ package Douban.consts
 		public static const CHANNEL:String = "channel";//频道
 		public static const USER_CACHE:String = "user_cache";//用户名缓存
 		
-		public static const Save_Lists:String = "save_lists";//用户名缓存
+		public static const Save_Lists:String = "save_lists";
+		public static const Music_List:String = "music_list";
 		
 		
 	}

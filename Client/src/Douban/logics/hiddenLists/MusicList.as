@@ -1,5 +1,6 @@
 package Douban.logics.hiddenLists 
 {
+	import Douban.consts.CONST_SHAREDOBJECT;
 	import Douban.logics.song.VO.SongVO;
 	/**
 	 * ...
@@ -32,6 +33,24 @@ package Douban.logics.hiddenLists
 			return FSongVec.length;
 		}
 		//---- Public Methods ----------------------------------------------------
+		
+		public function Format(Obj:Object):void
+		{
+			var Arr:Array;
+			var Index:int;
+			var Count:int;
+			var Song:SongVO;
+			
+			Arr = Obj[CONST_SHAREDOBJECT.Music_List] as Array;
+			FSongVec.length = 0;
+			Count = Arr.length;
+			for (Index = 0; Index < Count; Index++)
+			{
+				Song = new SongVO();
+				Song.Format(Arr[Index]);
+				FSongVec.push(Song);
+			}
+		}
 		
 		public function Add(Song:SongVO):void
 		{

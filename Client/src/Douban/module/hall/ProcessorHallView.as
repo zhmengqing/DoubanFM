@@ -237,10 +237,22 @@ package Douban.module.hall
 			Sender:Object,
 			E:MouseEvent):void
 		{
+			var Obj:Object;
+			
+			Obj = ShareObjectManager.GetData(
+				CONST_SHAREDOBJECT.Save_Lists);
+				
+			if (Obj == null)
+			{
+				Obj = new Object();
+				Obj[CONST_SHAREDOBJECT.Music_List] = [];
+			}
+			Obj[CONST_SHAREDOBJECT.Music_List].push(FCurSong.Obj);
+			FDoubanDatas.Musics.Format(Obj);
 			FDoubanDatas.Musics.Add(FCurSong);
 			ShareObjectManager.SetData(
 				CONST_SHAREDOBJECT.Save_Lists,
-				FDoubanDatas);
+				Obj);
 			ShareObjectManager.Save();
 			FHallHidden.UpdateData(
 				FDoubanDatas,
