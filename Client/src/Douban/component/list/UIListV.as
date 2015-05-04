@@ -33,28 +33,39 @@ package Douban.component.list
 		
 		//---- Public Methods ----------------------------------------------------		
 		
-		public function AddItem(...args):void
+		public function AddItem(
+			Arg:Object,
+			Index:int = 0):void
 		{
-			var Index:int;
 			var YOffset:int;
 			var Item:UIListRenderer;
 			
 			YOffset = FDataCollection.YOffset - FDataCollection.Gap;
 			
+			Item = new FRenderer(this);	
+			FMountPoint.addChild(Item);
+			Item.CurIndex = Index;
+			Item.x = FDataCollection.XOffset;
+			Item.y = YOffset + FDataCollection.Gap + Item.height;
+			Item.UpdateData(Arg);
+			Item.OnSelect = OnRenderSelect;
+			FItemVec.push(Item);
+			FDataCollection.AddData(Arg);
+			FDataCollection.YOffset = Item.y;
+			FHeight = FDataCollection.YOffset + FDataCollection.Gap + Item.height;			
+			
+		}
+		
+		public function AddItems(...args):void
+		{
+			var Index:int;
+			
 			for (Index = 0; Index < args.length; Index++)
 			{
-				Item = new FRenderer(this);	
-				FMountPoint.addChild(Item);
-				Item.x = FDataCollection.XOffset;
-				Item.y = YOffset + FDataCollection.Gap + Item.height;
-				Item.UpdateData(args[Index]);
-				Item.OnSelect = OnRenderSelect;
-				FItemVec.push(Item);
-				FDataCollection.AddData(args[Index]);
-				FDataCollection.YOffset = Item.y;
-				FHeight = FDataCollection.YOffset + FDataCollection.Gap + Item.height;
+				AddItem(
+					args[Index],
+					Index);				
 			}
-			
 		}
 		
 		public function SetScroll(

@@ -91,8 +91,8 @@ package Douban.module.hall.hiddenLists
 			for (Index = 0; Index < Count; Index ++)
 			{
 				FListPannel.AddItem(
-					FData.GetDataByIndex(Index) as SongVO);
-				
+					FData.GetDataByIndex(Index) as SongVO,
+					Index);
 			}
 			
 			FListPannel.SetScroll(

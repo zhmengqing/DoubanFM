@@ -13,6 +13,7 @@ package Douban.component
 		
 		protected var FSubstrate:MovieClip;
 		protected var FOnClick:Function;
+		protected var FOnDoubleClick:Function;
 		protected var FOnDown:Function;
 		protected var FOnUp:Function;
 		
@@ -32,6 +33,7 @@ package Douban.component
 			FSubstrate.buttonMode = true;
 			
 			FSubstrate.addEventListener(MouseEvent.CLICK, BtnOnClick);
+			FSubstrate.addEventListener(MouseEvent.DOUBLE_CLICK, BtnOnDoubleClick);
 			FSubstrate.addEventListener(MouseEvent.MOUSE_DOWN, BtnOnDown);
 			FSubstrate.addEventListener(MouseEvent.MOUSE_UP, BtnOnUp);
 		}
@@ -41,6 +43,16 @@ package Douban.component
 			if (FOnClick != null)
 			{
 				FOnClick(
+					this,
+					e);
+			}
+		}
+		
+		protected function BtnOnDoubleClick(e:MouseEvent):void 
+		{
+			if (FOnDoubleClick != null)
+			{
+				FOnDoubleClick(
 					this,
 					e);
 			}
@@ -169,6 +181,27 @@ package Douban.component
 		public function set OnMouseUp(value:Function):void 
 		{
 			FOnUp = value;
+		}
+		
+		public function get OnDoubleClick():Function 
+		{
+			return FOnDoubleClick;
+		}
+		
+		public function set OnDoubleClick(value:Function):void 
+		{
+			FOnDoubleClick = value;
+			FSubstrate.doubleClickEnabled
+		}
+		
+		public function get DoubleClickEnabled():Boolean 
+		{
+			return FSubstrate.doubleClickEnabled;
+		}
+		
+		public function set DoubleClickEnabled(value:Boolean):void 
+		{
+			FSubstrate.doubleClickEnabled = value;
 		}
 		
 	}

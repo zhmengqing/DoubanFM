@@ -49,7 +49,8 @@ package Douban.component.list
 		{
 			if (FOnSelect != null)
 			{
-				FOnSelect(Data);
+				FOnSelect(
+					Data);
 			}
 		}
 		

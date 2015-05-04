@@ -192,7 +192,9 @@ package Douban.module.hall
 			FHallHidden = new ProcessorHallHidden(
 				this,
 				FMainUI["MC_List"]);
+			FHallHidden.SongManager = FSongManager;
 		}
+		
 		
 		//音量
 		private function OnVolumeChange(Scale:Number):void 
@@ -249,7 +251,7 @@ package Douban.module.hall
 			}
 			Obj[CONST_SHAREDOBJECT.Music_List].push(FCurSong.Obj);
 			FDoubanDatas.Musics.Format(Obj);
-			FDoubanDatas.Musics.Add(FCurSong);
+			//FDoubanDatas.Musics.Add(FCurSong);
 			ShareObjectManager.SetData(
 				CONST_SHAREDOBJECT.Save_Lists,
 				Obj);

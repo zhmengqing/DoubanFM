@@ -5,6 +5,7 @@ package Douban.module.hall.hiddenLists.musicList
 	import Douban.component.UIComponent;
 	import Douban.consts.CONST_RESOURCE;
 	import Douban.logics.song.VO.SongVO;
+	import Douban.manager.statics.CommonManager;
 	import Douban.manager.statics.DomainManager;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
@@ -52,18 +53,42 @@ package Douban.module.hall.hiddenLists.musicList
 			FBtnRender = new UIButtton();
 			FBtnRender.Substrate = FMainUI["Btn_Render"];
 			FBtnRender.OnClick = OnRenderClick;
+			FBtnRender.DoubleClickEnabled = true;
+			FBtnRender.OnDoubleClick = OnDoubleClick;
 		}
 		
-		
+		protected function FormatIndex():String
+		{
+			if (FCurIndex < 10)
+			{
+				return "00" + int(FCurIndex + 1);
+			}
+			else if (FCurIndex < 100)
+			{
+				return "0" + int(FCurIndex + 1);
+			}
+			
+			return int(FCurIndex + 1) + "";
+			
+		}
 		//---- Protected Methods -----------------------------------------------
 		
 		protected function OnRenderClick(
 			Sender:Object,
 			E:MouseEvent):void
 		{
+			FOnSelect(
+				{song:FSongVO, index:FCurIndex } );
 			
-			FOnSelect(FSongVO);
 		}
+		
+		protected function OnDoubleClick(
+			Sender:Object,
+			E:MouseEvent):void
+		{
+			
+		}
+		
 		
 		//---- Event Handling Methods ------------------------------------------
 		
@@ -78,6 +103,9 @@ package Douban.module.hall.hiddenLists.musicList
 			
 			FSongVO = Data as SongVO;
 			FTFMusic.text = FSongVO.Artist + " - " + FSongVO.Title;
+			FTFTime.text = CommonManager.GetTimeStrBySeconds(
+				FSongVO.Length);
+			FTFIndex.text = FormatIndex();
 		}
 		
 	}

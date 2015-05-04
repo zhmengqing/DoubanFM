@@ -5,9 +5,11 @@ package Douban.module.hall.hiddenLists
 	import Douban.logics.common.DoubanDatas;
 	import Douban.logics.hiddenLists.IListData;
 	import Douban.logics.hiddenLists.UnstreamizerHiddenLists;
+	import Douban.logics.song.VO.SongVO;
 	import Douban.manager.statics.ShareObjectManager;
 	import Douban.module.hall.hiddenLists.channelList.ChannelRenderer;
 	import Douban.module.hall.hiddenLists.musicList.MusicRenderer;
+	import Douban.module.hall.musicPlayer.SongConnection;
 	import flash.display.Sprite;
 	
 	/**
@@ -28,6 +30,10 @@ package Douban.module.hall.hiddenLists
 		protected var FHiddenDatas:Vector.<IListData>;
 		protected var FUnstreamizer:UnstreamizerHiddenLists;
 		protected var FListRenderers:Vector.<Class>;
+		
+		protected var FSongManager:SongConnection;
+		
+		protected var FCurMusicIndex:int;
 		
 		//---- Property Fields -------------------------------------------------
 		
@@ -69,7 +75,23 @@ package Douban.module.hall.hiddenLists
 		protected function OnListSelect(
 			Data:Object):void
 		{
+			var Song:SongVO;
 			
+			Song = Data.song as SongVO;
+			FCurMusicIndex = Data.index;
+			FSongManager.Load(
+				Song.SongUrl,
+				OnMusicSelectNext);
+		}
+		
+		protected function OnMusicSelectNext():void
+		{
+			var Song:SongVO;
+			FCurMusicIndex ++;
+			Song = FHiddenDatas[CONST_SHAREDOBJECT.Music_List].GetDataByIndex(FCurMusicIndex) as SongVO;
+			FSongManager.Load(
+				Song.SongUrl,
+				OnMusicSelectNext);
 		}
 		
 		protected function OnListShow():void
@@ -121,6 +143,16 @@ package Douban.module.hall.hiddenLists
 			{
 				FHiddenLists[Index].Update();
 			}
+		}
+		
+		public function get SongManager():SongConnection 
+		{
+			return FSongManager;
+		}
+		
+		public function set SongManager(value:SongConnection):void 
+		{
+			FSongManager = value;
 		}
 	}
 

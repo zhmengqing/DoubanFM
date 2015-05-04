@@ -68,7 +68,7 @@ package Douban.logics.hiddenLists
 			Index = FSongVec.indexOf(Song);
 			if (Index != -1)
 			{
-				FSongVec.splice(Index,1);;
+				FSongVec.splice(Index,1);
 			}
 		}
 		

@@ -9,6 +9,7 @@ package Douban.component.list
 	{
 		
 		protected var FOnSelect:Function;
+		protected var FCurIndex:int;//当前序号
 		
 		public function UIListRenderer(Parent:UIComponent) 
 		{
@@ -33,6 +34,15 @@ package Douban.component.list
 			FOnSelect = value;
 		}
 		
+		public function get CurIndex():int
+		{
+			return FCurIndex;
+		}
+		
+		public function set CurIndex(value:int):void
+		{
+			FCurIndex = value;
+		}
 		
 	}
 
