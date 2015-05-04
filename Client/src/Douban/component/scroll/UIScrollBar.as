@@ -45,6 +45,7 @@ package Douban.component.scroll
 		//显示区域与条长度的比例
 		protected var FDisplayPerBar:Number;
 		protected var FIsDisplay:Boolean;
+		protected var FIsWheel:Boolean;
 		//移动方向
 		protected var FMoveDirection:int;
 		protected var FBarStartPos:int;
@@ -78,13 +79,11 @@ package Douban.component.scroll
 			
 			FBtnUp = new UIButtton();
 			FBtnUp.Substrate = FMainUI["Btn_Up"];
-			//FBtnUp.OnClick = BtnOnClick;
 			FBtnUp.OnMouseDown = BtnOnMouseDown;
 			FBtnUp.OnMouseUp = BtnOnMouseUp;
 			
 			FBtnDown = new UIButtton();
 			FBtnDown.Substrate = FMainUI["Btn_Down"];
-			//FBtnDown.OnClick = BtnOnClick;
 			FBtnDown.OnMouseDown = BtnOnMouseDown;
 			FBtnDown.OnMouseUp = BtnOnMouseUp;
 			
@@ -92,6 +91,7 @@ package Douban.component.scroll
 			FBtnBar.Substrate = FMainUI["Btn_Bar"];
 			FBtnBar.OnMouseDown = BarOnDown;
 			UICore.addEventListener(MouseEvent.MOUSE_UP, BarOnUp);
+			UICore.addEventListener(MouseEvent.MOUSE_WHEEL, BarOnWheel);
 			
 			FMCBg = FMainUI["MC_Bg"];
 			
@@ -140,14 +140,6 @@ package Douban.component.scroll
 			FIsDisplay = false;
 		}
 		
-		/*protected function BtnOnClick(
-			Sender:Object,
-			E:MouseEvent):void
-		{
-			
-			
-		}*/
-		
 		protected function BarOnDown(
 			Sender:Object,
 			E:MouseEvent):void
@@ -173,6 +165,13 @@ package Douban.component.scroll
 			FIsDisplay = false;
 		}
 		
+		protected function BarOnWheel(
+			E:MouseEvent):void
+		{
+			FBtnBar.Y -= E.delta * Bar_MoveInterval;
+			FIsDisplay = true;
+			FIsWheel = true;
+		}
 		//---- Property Accessing Methods --------------------------------------
 		/**滚动条的长度*/
 		public function get Length():int 
@@ -188,10 +187,9 @@ package Douban.component.scroll
 			FBtnDown.Y = FLength;
 			FBarHeight = FLength - FBtnHeight;
 			FBarStartPos = FBtnUp.Height + Bar_Offset;
-			FBarEndPos = FLength - Bar_Offset - FBtnDown.Height - FBtnBar.Height;
-			
-			
+			FBarEndPos = FLength - Bar_Offset - FBtnDown.Height - FBtnBar.Height;			
 		}
+		
 		/**默认CONST_COMMON.SCROLL_VERTICLE**/
 		public function get Direction():int 
 		{
@@ -234,7 +232,11 @@ package Douban.component.scroll
 			Per = DisplayLength / TotalLength;
 			Per = Per > 1 ? 1 : Per;
 			FBtnBar.Height = FBarHeight * Bar_Percent * Per;
-			
+			Length = FLength;
+			if (FBtnBar.Y < FBarStartPos)
+			{
+				FBtnBar.Y = FBarStartPos;
+			}
 			FDisplayPerBar = (TotalLength - DisplayLength) / (FBarHeight - FBtnBar.Height);
 			
 		}
@@ -242,6 +244,7 @@ package Douban.component.scroll
 		//逐帧运行
 		override public function Update():void
 		{
+			var BtnBarY:int;
 			super.Update();
 			if (!FIsDisplay) return;
 			if (FMoveDirection != 0)
@@ -249,17 +252,27 @@ package Douban.component.scroll
 				FBtnBar.Y += FMoveDirection * Bar_MoveInterval;
 			}
 			
+			BtnBarY = FBtnBar.Y;
+			
 			if (FBtnBar.Y < FBarStartPos)
 			{
-				FBtnBar.Y = FBarStartPos;
+				BtnBarY = FBarStartPos;
 				FIsDisplay = false;
+				FBtnBar.Y = BtnBarY;
 			}
 			else if (FBtnBar.Y > FBarEndPos)
 			{
-				FBtnBar.Y = FBarEndPos;
+				BtnBarY = FBarEndPos;
 				FIsDisplay = false;
+				FBtnBar.Y = BtnBarY;
 			}
-			FLocate = -FDisplayPerBar * (FBtnBar.Y - FBtnUp.Height - Bar_Offset);
+			if (FIsWheel)
+			{
+				FIsDisplay = false;
+				FIsWheel = false;
+			}
+			
+			FLocate = -FDisplayPerBar * (BtnBarY - FBtnUp.Height - Bar_Offset);
 		}
 	}
 

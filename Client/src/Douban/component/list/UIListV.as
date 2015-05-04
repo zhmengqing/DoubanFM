@@ -52,7 +52,7 @@ package Douban.component.list
 				FItemVec.push(Item);
 				FDataCollection.AddData(args[Index]);
 				FDataCollection.YOffset = Item.y;
-				FHeight = FDataCollection.YOffset + Item.y + FDataCollection.Gap + Item.height;
+				FHeight = FDataCollection.YOffset + FDataCollection.Gap + Item.height;
 			}
 			
 		}
