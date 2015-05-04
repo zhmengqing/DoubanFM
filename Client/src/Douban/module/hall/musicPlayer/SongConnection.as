@@ -26,6 +26,8 @@ package Douban.module.hall.musicPlayer
 		protected var FSongComplete:Function;
 		protected var FOnMetaData:Function;
 		
+		protected var FRefreshSong:Function;
+		
 		public function SongConnection()
 		{
 			FConnection = new NetConnection();
@@ -128,6 +130,16 @@ package Douban.module.hall.musicPlayer
 		public function set OnMetaData(value:Function):void 
 		{
 			FOnMetaData = value;
+		}
+		
+		public function get RefreshSong():Function 
+		{
+			return FRefreshSong;
+		}
+		
+		public function set RefreshSong(value:Function):void 
+		{
+			FRefreshSong = value;
 		}
 		
 	}

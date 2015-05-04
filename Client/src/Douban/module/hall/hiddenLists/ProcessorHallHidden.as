@@ -82,16 +82,28 @@ package Douban.module.hall.hiddenLists
 			FSongManager.Load(
 				Song.SongUrl,
 				OnMusicSelectNext);
+				
+			FSongManager.RefreshSong(
+				Song);
 		}
 		
 		protected function OnMusicSelectNext():void
 		{
 			var Song:SongVO;
 			FCurMusicIndex ++;
-			Song = FHiddenDatas[CONST_SHAREDOBJECT.Music_List].GetDataByIndex(FCurMusicIndex) as SongVO;
+			Song = FDoubanDatas.Musics.GetDataByIndex(FCurMusicIndex) as SongVO;
+			if (Song == null)
+			{
+				FCurMusicIndex = -1;
+				OnMusicSelectNext();
+				return;
+			}
 			FSongManager.Load(
 				Song.SongUrl,
 				OnMusicSelectNext);
+			
+			FSongManager.RefreshSong(
+				Song);
 		}
 		
 		protected function OnListShow():void

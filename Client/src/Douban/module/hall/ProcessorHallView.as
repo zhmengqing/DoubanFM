@@ -175,7 +175,7 @@ package Douban.module.hall
 			
 			FSongManager = new SongConnection();
 			FSongManager.OnMetaData = OnMetaData;
-			
+			FSongManager.RefreshSong = SetSongFace;
 			
 			FUnstreamizerSong = new UnstreamizerSong();
 			
@@ -382,6 +382,15 @@ package Douban.module.hall
 			//FSongHeart.ShowHeart(SongHeart.Type_Black);
 		}
 		
+		protected function SetSongFace(Song:SongVO):void
+		{
+			FTFArtist.text = Song.Artist;
+			FTFAlbumtitle.text = "<" + Song.Albumtitle + "> " + Song.PublicTime;
+			FTFTitle.text = Song.Title;
+			FSongHeart.IsSelected = Song.Like == 1;
+		}
+		
+		
 		public function SetData(
 			SongObj:Object):void
 		{
@@ -432,10 +441,7 @@ package Douban.module.hall
 				FCurSong.SongUrl,
 				OnSongComplete);
 				
-			FTFArtist.text = FCurSong.Artist;
-			FTFAlbumtitle.text = "<" + FCurSong.Albumtitle + "> " + FCurSong.PublicTime;
-			FTFTitle.text = FCurSong.Title;
-			FSongHeart.IsSelected = FCurSong.Like == 1;
+			SetSongFace(FCurSong);
 			//FSongHeart.ShowHeart(FCurSong.Like);
 		}
 		
