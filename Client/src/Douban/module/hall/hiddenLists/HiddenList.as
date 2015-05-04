@@ -65,6 +65,10 @@ package Douban.module.hall.hiddenLists
 				FMainUI.gotoAndPlay(1);
 				FOnShow();
 			}
+			else
+			{
+				FMainUI.gotoAndStop(1);
+			}
 		}
 		
 		protected function OnListSelect(Data:Object):void
